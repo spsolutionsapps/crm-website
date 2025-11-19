@@ -88,9 +88,9 @@
                 id="dashboard-light"
                 class="rounded-[16px] flex flex-col justify-between space-y-8 transition-all duration-300"
               >
-                <div id="default-carousel" class="relative w-full flex items-center gap-4">
+                <div id="default-carousel" class="relative w-full flex items-center">
                   <!-- Slider controls - Left -->
-                  <button type="button" class="flex-shrink-0 z-30 flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 focus:ring-4 focus:ring-white focus:outline-none cursor-pointer group transition-all" data-carousel-prev>
+                  <button type="button" class="hidden flex-shrink-0 z-30 flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 focus:ring-4 focus:ring-white focus:outline-none cursor-pointer group transition-all" data-carousel-prev>
                     <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
                     </svg>
@@ -104,29 +104,9 @@
                       <div class="absolute inset-0 transition-transform duration-700 ease-in-out transform translate-x-0" data-carousel-item>
                         <img src="img/light.jpg" alt="dashboard-light" class="w-full h-full object-contain rounded-[5px]">
                       </div>
-                      <!-- Item 2 -->
-                      <div class="absolute inset-0 transition-transform duration-700 ease-in-out transform translate-x-full" data-carousel-item>
-                        <img src="img/dark.jpg" alt="dashboard-dark" class="w-full h-full object-contain rounded-[5px]">
-                      </div>
-                      <!-- Item 3 -->
-                      <div class="absolute inset-0 transition-transform duration-700 ease-in-out transform translate-x-full" data-carousel-item>
-                        <img src="img/grafico.jpg" alt="dashboard-grafico" class="w-full h-full object-cover rounded-[5px]">
-                      </div>
-                      <!-- Item 4 -->
-                      <div class="absolute inset-0 transition-transform duration-700 ease-in-out transform translate-x-full" data-carousel-item>
-                        <img src="img/leads.png" alt="dashboard-leads" class="w-full h-full object-cover rounded-[5px]">
-                      </div>
-                      <!-- Item 5 -->
-                      <div class="absolute inset-0 transition-transform duration-700 ease-in-out transform translate-x-full" data-carousel-item>
-                        <img src="img/stock.png" alt="dashboard-stock" class="w-full h-full object-cover rounded-[5px]">
-                      </div>
-                      <!-- Item 6 -->
-                      <div class="absolute inset-0 transition-transform duration-700 ease-in-out transform translate-x-full" data-carousel-item>
-                        <img src="img/ventas.png" alt="dashboard-ventas" class="w-full h-full object-cover rounded-[5px]">
-                      </div>
                     </div>
                     <!-- Slider indicators -->
-                    <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+                    <div class="hidden absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
                       <button type="button" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
                       <button type="button" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
                       <button type="button" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
@@ -137,7 +117,7 @@
                   </div>
                   
                   <!-- Slider controls - Right -->
-                  <button type="button" class="flex-shrink-0 z-30 flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 focus:ring-4 focus:ring-white focus:outline-none cursor-pointer group transition-all" data-carousel-next>
+                  <button type="button" class="hidden flex-shrink-0 z-30 flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 focus:ring-4 focus:ring-white focus:outline-none cursor-pointer group transition-all" data-carousel-next>
                     <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
                     </svg>
