@@ -1,15 +1,13 @@
 name: Deploy to Digital Ocean
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     
     steps:
       - name: Checkout code
