@@ -95,6 +95,14 @@ if (contactTriggers.length && contactModal) {
     trigger.addEventListener("click", (event) => {
       event.preventDefault();
       openContactModal();
+      
+      // Si es el botón del plan Growth, establecer el asunto
+      if (trigger.classList.contains("js-plan-growth")) {
+        const subjectSelect = document.getElementById("contact-subject");
+        if (subjectSelect) {
+          subjectSelect.value = "growth";
+        }
+      }
     });
   });
 }
@@ -171,4 +179,169 @@ if (revealElements.length) {
 
   revealElements.forEach((el) => observer.observe(el));
 }
+
+// Custom slide effect for carousel
+(function() {
+  function initCarousel() {
+    const carousel = document.getElementById('default-carousel');
+    if (!carousel) {
+      // Retry if carousel not found yet
+      setTimeout(initCarousel, 100);
+      return;
+    }
+
+    const items = carousel.querySelectorAll('[data-carousel-item]');
+    if (items.length === 0) return;
+
+    let currentIndex = 0;
+    let autoplayInterval = null;
+
+    // Initialize: first item visible, others to the right
+    items.forEach((item, index) => {
+      // Remove all transform classes first
+      item.classList.remove('translate-x-0', 'translate-x-full', '-translate-x-full');
+      
+      if (index === 0) {
+        item.style.transform = 'translateX(0%)';
+        item.classList.add('translate-x-0');
+      } else {
+        item.style.transform = 'translateX(100%)';
+        item.classList.add('translate-x-full');
+      }
+    });
+
+    // Function to update slide positions
+    function updateSlides(newIndex) {
+      if (newIndex < 0 || newIndex >= items.length) return;
+      
+      items.forEach((item, index) => {
+        // Remove all transform classes
+        item.classList.remove('translate-x-0', 'translate-x-full', '-translate-x-full');
+        
+        if (index < newIndex) {
+          // Items before current: move to left
+          item.style.transform = 'translateX(-100%)';
+          item.classList.add('-translate-x-full');
+        } else if (index === newIndex) {
+          // Current item: center
+          item.style.transform = 'translateX(0%)';
+          item.classList.add('translate-x-0');
+        } else {
+          // Items after current: move to right
+          item.style.transform = 'translateX(100%)';
+          item.classList.add('translate-x-full');
+        }
+      });
+      
+      currentIndex = newIndex;
+
+      // Update indicators
+      const indicators = carousel.querySelectorAll('[data-carousel-slide-to]');
+      indicators.forEach((indicator, index) => {
+        if (index === newIndex) {
+          indicator.setAttribute('aria-current', 'true');
+          indicator.classList.remove('bg-white/50');
+          indicator.classList.add('bg-white');
+        } else {
+          indicator.setAttribute('aria-current', 'false');
+          indicator.classList.remove('bg-white');
+          indicator.classList.add('bg-white/50');
+        }
+      });
+    }
+
+    // Navigation functions
+    function nextSlide() {
+      const newIndex = (currentIndex + 1) % items.length;
+      updateSlides(newIndex);
+    }
+
+    function prevSlide() {
+      const newIndex = (currentIndex - 1 + items.length) % items.length;
+      updateSlides(newIndex);
+    }
+
+    function goToSlide(index) {
+      if (index >= 0 && index < items.length) {
+        updateSlides(index);
+        resetAutoplay();
+      }
+    }
+
+    // Autoplay
+    function startAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+      }
+      autoplayInterval = setInterval(nextSlide, 5000);
+    }
+
+    function resetAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+      }
+      startAutoplay();
+    }
+
+    // Event listeners
+    const prevButton = carousel.querySelector('[data-carousel-prev]');
+    const nextButton = carousel.querySelector('[data-carousel-next]');
+    const indicators = carousel.querySelectorAll('[data-carousel-slide-to]');
+
+    if (prevButton) {
+      prevButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        prevSlide();
+        resetAutoplay();
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        nextSlide();
+        resetAutoplay();
+      });
+    }
+
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        goToSlide(index);
+      });
+    });
+
+    // Start autoplay
+    startAutoplay();
+
+    // Pause on hover
+    carousel.addEventListener('mouseenter', function() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    });
+
+    carousel.addEventListener('mouseleave', function() {
+      startAutoplay();
+    });
+  }
+
+  // Initialize when DOM is ready and after a short delay to ensure Flowbite doesn't interfere
+  function startInit() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initCarousel, 200);
+      });
+    } else {
+      // DOM already loaded
+      setTimeout(initCarousel, 200);
+    }
+  }
+  
+  startInit();
+})();
 

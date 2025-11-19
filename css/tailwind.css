@@ -37,6 +37,21 @@
   .kora-pink {
     color: #FF69B4;
   }
+  
+  #carousel-wrapper {
+    height: 14rem;
+  }
+  
+  @media (min-width: 768px) {
+    #carousel-wrapper {
+      height: 30rem !important;
+    }
+
+    .h-28 {
+      height: 30rem !important;
+    }
+  }
+  
   @media (min-width: 1024px) {
     .header-fixed {
       @apply fixed top-0 left-0 right-0 z-50 bg-secondary/95 border-b border-white/10 shadow-card;
