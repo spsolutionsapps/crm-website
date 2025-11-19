@@ -35,4 +35,3 @@ jobs:
           source: "index.html,css/,js/,img/,fav/"
           target: ${{ secrets.DO_DEPLOY_PATH }}
           strip_components: 0
-
