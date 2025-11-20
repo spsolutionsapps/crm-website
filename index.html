@@ -493,14 +493,22 @@
               <span class="text-xl leading-none">×</span>
             </button>
           </div>
-          <form class="space-y-5">
+          <form action="https://formsubmit.co/spsolutions.app@gmail.com" method="POST" class="space-y-5">
+            <!-- Campos ocultos de FormSubmit -->
+            <input type="hidden" name="_subject" value="Nuevo contacto desde Kora CRM">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://spsolutions.app">
+            <input type="hidden" name="_template" value="box">
+            
             <div class="grid gap-4 md:grid-cols-2">
               <div class="flex flex-col space-y-2">
                 <label for="contact-name" class="text-sm font-medium text-white/80">Nombre completo</label>
                 <input
                   id="contact-name"
+                  name="name"
                   type="text"
                   placeholder="Cómo podemos llamarte"
+                  required
                   class="w-full bg-secondary/60 border border-white/10 px-4 py-3 text-white placeholder-white/40 focus:border-primary focus:outline-none focus:ring-0 rounded"
                 />
               </div>
@@ -508,8 +516,10 @@
                 <label for="contact-email" class="text-sm font-medium text-white/80">Correo electrónico</label>
                 <input
                   id="contact-email"
+                  name="email"
                   type="email"
                   placeholder="tu@email.com"
+                  required
                   class="w-full bg-secondary/60 border border-white/10 px-4 py-3 text-white placeholder-white/40 focus:border-primary focus:outline-none focus:ring-0 rounded"
                 />
               </div>
@@ -519,6 +529,7 @@
                 <label for="contact-company" class="text-sm font-medium text-white/80">Empresa</label>
                 <input
                   id="contact-company"
+                  name="company"
                   type="text"
                   placeholder="Nombre de la empresa"
                   class="w-full bg-secondary/60 border border-white/10 px-4 py-3 text-white placeholder-white/40 focus:border-primary focus:outline-none focus:ring-0 rounded"
@@ -528,6 +539,7 @@
                 <label for="contact-subject" class="text-sm font-medium text-white/80">Asunto</label>
                 <select
                   id="contact-subject"
+                  name="subject"
                   class="w-full bg-secondary/60 border border-white/10 px-4 py-3 text-white focus:border-primary focus:outline-none focus:ring-0 rounded"
                 >
                   <option value="consulta">Consulta general</option>
@@ -541,8 +553,10 @@
               <label for="contact-message" class="text-sm font-medium text-white/80">Mensaje</label>
               <textarea
                 id="contact-message"
+                name="message"
                 rows="4"
                 placeholder="Cuéntanos sobre tus necesidades"
+                required
                 class="w-full bg-secondary/60 border border-white/10 px-4 py-3 text-white placeholder-white/40 focus:border-primary focus:outline-none focus:ring-0 resize-none rounded"
               ></textarea>
             </div>
