@@ -1,8 +1,4 @@
 <?php
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
@@ -68,8 +64,65 @@ $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curl_error = curl_error($ch);
 curl_close($ch);
 
-// Verificar respuesta
+// Verificar respuesta de Supabase
 if ($http_code >= 200 && $http_code < 300) {
+    // Enviar email de notificación usando SendGrid
+    $sendgrid_api_key = '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';
+    $sendgrid_url = 'https://api.sendgrid.com/v3/mail/send';
+    
+    // Construir el cuerpo del email
+    $email_body = "Nuevo contacto recibido desde el sitio web de Kora CRM\n\n";
+    $email_body .= "Nombre: " . $name . "\n";
+    $email_body .= "Email: " . $email . "\n";
+    $email_body .= "Empresa: " . ($company ? $company : 'No especificada') . "\n";
+    $email_body .= "Asunto: " . $subject . "\n\n";
+    $email_body .= "Mensaje:\n" . $message . "\n";
+    
+    // Preparar datos para SendGrid
+    $email_data = [
+        'personalizations' => [
+            [
+                'to' => [
+                    [
+                        'email' => 'spsolutions.app@gmail.com',
+                        'name' => 'SP Solutions'
+                    ]
+                ],
+                'subject' => 'Nuevo contacto desde Kora CRM - ' . $subject
+            ]
+        ],
+        'from' => [
+            'email' => 'spsolutions.app@gmail.com',
+            'name' => 'Kora CRM'
+        ],
+        'reply_to' => [
+            'email' => $email,
+            'name' => $name
+        ],
+        'content' => [
+            [
+                'type' => 'text/plain',
+                'value' => $email_body
+            ]
+        ]
+    ];
+    
+    // Enviar email usando SendGrid API
+    $ch_email = curl_init();
+    curl_setopt($ch_email, CURLOPT_URL, $sendgrid_url);
+    curl_setopt($ch_email, CURLOPT_POST, true);
+    curl_setopt($ch_email, CURLOPT_POSTFIELDS, json_encode($email_data));
+    curl_setopt($ch_email, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch_email, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer ' . $sendgrid_api_key,
+        'Content-Type: application/json'
+    ]);
+    
+    $email_response = curl_exec($ch_email);
+    $email_http_code = curl_getinfo($ch_email, CURLINFO_HTTP_CODE);
+    curl_close($ch_email);
+    
+    // Responder éxito (aunque el email falle, los datos ya están guardados)
     echo json_encode([
         'success' => true, 
         'message' => '¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.'
@@ -91,4 +144,3 @@ if ($http_code >= 200 && $http_code < 300) {
         'message' => $error_message
     ]);
 }
-?>
