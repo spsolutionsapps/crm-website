@@ -32,37 +32,59 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// Email de destino
-$to = 'spsolutions.app@gmail.com';
+// Configuración de Supabase
+$supabase_url = 'https://tvukfobcjthbbsetfzng.supabase.co';
+$supabase_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2dWtmb2JjanRoYmJzZXRmem5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MjY5OTAsImV4cCI6MjA3OTIwMjk5MH0.l9e_v_X2Vnyy76-7u8FYqTRlgiKuwLvO-DCu_5Ern3c';
+$table_name = 'contactos';
 
-// Asunto del email
-$email_subject = 'Nuevo contacto desde Kora CRM - ' . $subject;
+// Preparar datos para insertar
+$data = [
+    'name' => $name,
+    'email' => $email,
+    'company' => $company ? $company : null,
+    'subject' => $subject,
+    'message' => $message
+];
 
-// Construir el cuerpo del mensaje
-$email_body = "Nuevo contacto recibido desde el sitio web de Kora CRM\n\n";
-$email_body .= "Nombre: " . $name . "\n";
-$email_body .= "Email: " . $email . "\n";
-$email_body .= "Empresa: " . ($company ? $company : 'No especificada') . "\n";
-$email_body .= "Asunto: " . $subject . "\n\n";
-$email_body .= "Mensaje:\n" . $message . "\n";
+// Insertar datos en Supabase usando REST API
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $supabase_url . '/rest/v1/' . $table_name);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'apikey: ' . $supabase_key,
+    'Authorization: Bearer ' . $supabase_key,
+    'Content-Type: application/json',
+    'Prefer: return=representation'
+]);
 
-// Headers del email
-$headers = "From: noreply@spsolutions.app\r\n";
-$headers .= "Reply-To: " . $email . "\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion();
+$response = curl_exec($ch);
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curl_error = curl_error($ch);
+curl_close($ch);
 
-// Intentar enviar el email
-if (mail($to, $email_subject, $email_body, $headers)) {
+// Verificar respuesta
+if ($http_code >= 200 && $http_code < 300) {
     echo json_encode([
         'success' => true, 
         'message' => '¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.'
     ]);
 } else {
     http_response_code(500);
+    $error_message = 'Error al enviar el mensaje. Por favor intenta nuevamente.';
+    if ($curl_error) {
+        $error_message .= ' Error: ' . $curl_error;
+    }
+    if ($response) {
+        $error_data = json_decode($response, true);
+        if (isset($error_data['message'])) {
+            $error_message .= ' ' . $error_data['message'];
+        }
+    }
     echo json_encode([
         'success' => false, 
-        'message' => 'Error al enviar el mensaje. Por favor intenta nuevamente.'
+        'message' => $error_message
     ]);
 }
 ?>
-
