@@ -345,3 +345,61 @@ if (revealElements.length) {
   startInit();
 })();
 
+// Manejo del formulario de contacto con AJAX
+const contactForm = document.getElementById("contact-form");
+const formMessage = document.getElementById("form-message");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    // Obtener valores del formulario
+    const formData = new FormData(contactForm);
+    
+    // Deshabilitar botón de envío
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando...";
+    
+    // Ocultar mensaje anterior
+    formMessage.classList.add("hidden");
+    
+    try {
+      const response = await fetch("send-email.php", {
+        method: "POST",
+        body: formData
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Mostrar mensaje de éxito
+        formMessage.textContent = "¡Gracias por comunicarte con nosotros! En menos de 24hs estaremos comunicándonos.";
+        formMessage.className = "px-4 py-3 rounded-lg text-sm font-medium bg-green-500/20 text-green-400 border border-green-500/30";
+        formMessage.classList.remove("hidden");
+        
+        // Limpiar formulario
+        contactForm.reset();
+        
+        // Hacer scroll al mensaje para que sea visible
+        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        // Mostrar mensaje de error
+        formMessage.textContent = data.message || "Error al enviar el mensaje. Por favor intenta nuevamente.";
+        formMessage.className = "px-4 py-3 rounded-lg text-sm font-medium bg-red-500/20 text-red-400 border border-red-500/30";
+        formMessage.classList.remove("hidden");
+      }
+    } catch (error) {
+      // Mostrar mensaje de error
+      formMessage.textContent = "Error de conexión. Por favor verifica tu conexión e intenta nuevamente.";
+      formMessage.className = "px-4 py-3 rounded-lg text-sm font-medium bg-red-500/20 text-red-400 border border-red-500/30";
+      formMessage.classList.remove("hidden");
+    } finally {
+      // Rehabilitar botón
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
+    }
+  });
+}
+

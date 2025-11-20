@@ -32,6 +32,6 @@ jobs:
           username: ${{ secrets.DO_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
-          source: "index.html,css/,js/,img/,fav/"
+          source: "index.html,send-email.php,css/,js/,img/,fav/"
           target: ${{ secrets.DO_DEPLOY_PATH }}
           strip_components: 0
