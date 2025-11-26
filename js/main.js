@@ -403,3 +403,39 @@ if (contactForm) {
   });
 }
 
+// Efecto parallax para el banner
+const parallaxBanner = document.getElementById('parallax-banner');
+const parallaxImg = document.querySelector('.parallax-img');
+
+if (parallaxBanner && parallaxImg) {
+  let ticking = false;
+  
+  const updateParallax = () => {
+    const rect = parallaxBanner.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    // Solo aplicar parallax cuando el banner está visible
+    if (rect.bottom >= 0 && rect.top <= windowHeight) {
+      // Calcular la posición relativa del scroll dentro del banner
+      const scrollProgress = (windowHeight - rect.top) / (windowHeight + rect.height);
+      const parallaxSpeed = 0.3; // Velocidad del parallax (ajusta este valor)
+      const maxOffset = 100; // Máximo desplazamiento en píxeles
+      const yPos = scrollProgress * maxOffset * parallaxSpeed;
+      
+      parallaxImg.style.transform = `translate3d(0, ${yPos}px, 0) scale(1.05)`;
+    }
+    
+    ticking = false;
+  };
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+  
+  // Ejecutar una vez al cargar
+  updateParallax();
+}
+

@@ -80,16 +80,20 @@
                 id="dashboard-dark"
                 class="hidden rounded-[5px]  bg-gradient-to-br from-surface to-secondary shadow-card flex flex-col justify-between space-y-8 transition-all duration-300">
                <img src="img/dark.jpg" alt="dashboard-dark" class="w-full h-full object-cover rounded-[5px]">
-                
+            
           
             </div>
 
               <div
-                id="dashboard-light"
-                class="rounded-[16px] flex flex-col justify-between space-y-8 transition-all duration-300"
+                class="rounded-[16px] flex flex-col justify-between space-y-8 transition-all duration-300 relative"
               >
-                <div id="default-carousel" class="relative w-full flex items-center">
-                  <!-- Slider controls - Left -->
+
+              <img src="img/light.jpg" alt="dashboard-light" class="w-full h-full object-contain laptop">
+
+              <img src="img/iphone.png" alt="iphone" class="iphone">
+
+                <!-- <div id="default-carousel" class="relative w-full flex items-center">
+                
                   <button type="button" class="hidden flex-shrink-0 z-30 flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 focus:ring-4 focus:ring-white focus:outline-none cursor-pointer group transition-all" data-carousel-prev>
                     <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
@@ -98,14 +102,15 @@
                   </button>
                   
                   <div class="flex-1 relative">
-                    <!-- Carousel wrapper -->
-                    <div id="carousel-wrapper" class="relative h-28 overflow-hidden rounded-[5px]">
-                      <!-- Item 1 -->
+                
+                    <div id="carousel-wrapper" class="relative h-28  rounded-[5px]">
+                   
                       <div class="absolute inset-0 transition-transform duration-700 ease-in-out transform translate-x-0" data-carousel-item>
-                        <img src="img/light.jpg" alt="dashboard-light" class="w-full h-full object-contain rounded-[5px]">
+                
+
                       </div>
                     </div>
-                    <!-- Slider indicators -->
+                  
                     <div class="hidden absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
                       <button type="button" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
                       <button type="button" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
@@ -116,14 +121,14 @@
                     </div>
                   </div>
                   
-                  <!-- Slider controls - Right -->
+                
                   <button type="button" class="hidden flex-shrink-0 z-30 flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 focus:ring-4 focus:ring-white focus:outline-none cursor-pointer group transition-all" data-carousel-next>
                     <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
                     </svg>
                     <span class="sr-only">Next</span>
                   </button>
-                </div>
+                </div> -->
               </div>
 
             </div>
@@ -320,7 +325,6 @@
         </div>
       </section>
 
-      
 
       <section id="faq" class="text-white border-t border-white/5">
         <div class="max-w-6xl mx-auto px-5 lg:px-8 py-20 lg:py-24 grid lg:grid-cols-[1.1fr_1fr] gap-12">
