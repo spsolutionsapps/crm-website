@@ -55,14 +55,25 @@ jobs:
             # Ir al directorio standalone
             cd .next/standalone || exit 1
             
-            # Crear enlace simbólico completo al directorio .next principal
-            # Esto es más simple y evita problemas con archivos faltantes
+            # Copiar el contenido de .next directamente (no enlace simbólico)
+            # Next.js necesita acceso directo a los archivos para resolver rutas relativas
             if [ -d "../../.next" ]; then
               rm -rf .next 2>/dev/null || true
-              ln -sf ../../.next .next
-              echo "Enlace simbólico .next creado"
-              # Verificar que el enlace funciona
-              ls -la .next | head -5
+              mkdir -p .next
+              # Copiar archivos JSON y BUILD_ID
+              cp ../../.next/*.json .next/ 2>/dev/null || true
+              cp ../../.next/BUILD_ID .next/ 2>/dev/null || true
+              # Copiar directorio server completo
+              cp -r ../../.next/server .next/ 2>/dev/null || true
+              # Crear enlace simbólico solo para static (archivos estáticos grandes)
+              # Usar ruta absoluta para evitar problemas de resolución
+              if [ -d "../../.next/static" ]; then
+                DEPLOY_PATH_ABS=$(readlink -f "$DEPLOY_PATH")
+                ln -sf "$DEPLOY_PATH_ABS/.next/static" .next/static
+              fi
+              echo "Directorio .next configurado"
+              # Verificar estructura
+              ls -la .next/ | head -10
             fi
             
             if [ -d "../../public" ]; then
