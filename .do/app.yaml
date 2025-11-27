@@ -1,0 +1,41 @@
+name: sp-landing-page
+region: nyc
+services:
+  - name: web
+    github:
+      repo: tu-usuario/tu-repositorio
+      branch: main
+      deploy_on_push: true
+    run_command: npm start
+    environment_slug: node-js
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    http_port: 3000
+    routes:
+      - path: /
+    envs:
+      - key: NODE_ENV
+        value: production
+      - key: NEXTAUTH_SECRET
+        value: ${NEXTAUTH_SECRET}
+        type: SECRET
+      - key: NEXTAUTH_URL
+        value: ${APP_URL}
+      - key: GOOGLE_CLIENT_ID
+        value: ${GOOGLE_CLIENT_ID}
+        type: SECRET
+        scope: RUN_TIME
+      - key: GOOGLE_CLIENT_SECRET
+        value: ${GOOGLE_CLIENT_SECRET}
+        type: SECRET
+        scope: RUN_TIME
+      - key: GITHUB_CLIENT_ID
+        value: ${GITHUB_CLIENT_ID}
+        type: SECRET
+        scope: RUN_TIME
+      - key: GITHUB_CLIENT_SECRET
+        value: ${GITHUB_CLIENT_SECRET}
+        type: SECRET
+        scope: RUN_TIME
+    build_command: npm install && npm run build
+

@@ -1,0 +1,273 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --spacing-6xl: 75rem;
+  --container-screen-2xl: 83.75rem;
+
+  --shadow-service: 0px 3px 20px 0px #8e9ca90d;
+  --shadow-deatail_shadow: 0px 20px 80px 0px #68758d26;
+  --shadow-dark-md: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px,
+    rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+
+  --transition-duration-150: 150ms;
+
+  --spacing-25: 25rem;
+  --spacing-29: 28rem;
+  --spacing-45: 45rem;
+  --spacing-50: 50rem;
+  --spacing-94: 22.5rem;
+  --spacing-120: 120rem;
+  --spacing-6_25: 6.25rem;
+  --spacing-70\%: 70%;
+  --spacing-40\%: 40%;
+  --spacing-30\%: 30%;
+  --spacing-60\%: 60%;
+  --spacing-8_5: 8.5rem;
+  --spacing-3_75: 3.75rem;
+
+  --height-150: 750px;
+  --height-6_25: 6.25rem;
+
+  --leading-extra-loose: 2.5;
+  --leading-2_5: 2.5rem;
+
+  --inset-5\%: 5%;
+  --inset-35\%: 35%;
+
+  --z-index-1: 1;
+  --z-index-2: 2;
+  --z-index-999: 999;
+
+  --color-primary: #2f73f2;
+  --color-secondary: #547593;
+  --color-midnight_text: #102d47;
+  --color-grey: #668199;
+  --color-border: #ccd7e1;
+  --color-success: #3cd278;
+  --color-section: #f8fafc;
+  --color-darkmode: #081738;
+  --color-darklight: #000f30;
+  --color-dark_border: #224767;
+  --color-Sky-blue-mist: #c0d5fb;
+
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  @apply overflow-x-hidden;
+}
+
+@layer base {
+  section {
+    @apply py-16;
+  }
+}
+
+.margin_top {
+  @apply md:mt-[6.25rem] mt-0;
+}
+/* Slick Slider */
+.slick-slide,
+.portfolio_slide {
+  @apply focus-visible:outline-0!;
+}
+.slick-dots li.slick-active button:before {
+  @apply opacity-100! text-primary! w-4! h-4!;
+}
+.slick-dots li button:before {
+  @apply text-base! text-[#BBC8D5]! opacity-100!;
+}
+
+/* Portfolio Slider Arrows */
+.slider-container .slick-prev,
+.slider-container .slick-next {
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+  background: rgba(47, 115, 242, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.slider-container .slick-prev:hover,
+.slider-container .slick-next:hover {
+  background: rgba(47, 115, 242, 1);
+  transform: scale(1.1);
+}
+
+.slider-container .slick-prev {
+  left: -25px;
+}
+
+.slider-container .slick-next {
+  right: -25px;
+}
+
+.slider-container .slick-prev:before,
+.slider-container .slick-next:before {
+  content: '';
+  display: none;
+}
+
+.slider-container .slick-prev svg,
+.slider-container .slick-next svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .slider-container .slick-prev {
+    left: 10px;
+  }
+  .slider-container .slick-next {
+    right: 10px;
+  }
+}
+
+/* Productos Slider - Flechas más grandes */
+.productos-slider .slick-prev,
+.productos-slider .slick-next {
+  z-index: 10;
+  width: 60px;
+  height: 60px;
+  background: rgba(47, 115, 242, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productos-slider .slick-prev {
+  left: -30px;
+}
+
+.productos-slider .slick-next {
+  right: -30px;
+}
+
+.productos-slider .slick-prev:before,
+.productos-slider .slick-next:before {
+  content: '';
+  display: none;
+}
+
+.productos-slider .slick-prev svg,
+.productos-slider .slick-next svg {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+/* Separar bullets 20px de la imagen */
+.productos-slider .slick-slider {
+  margin-bottom: 0;
+}
+
+.productos-slider .slick-list {
+  margin-bottom: 20px;
+}
+
+.productos-slider .slick-dots {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  position: relative;
+  bottom: auto;
+}
+
+@media (max-width: 768px) {
+  .productos-slider .slick-prev {
+    left: 10px;
+  }
+  .productos-slider .slick-next {
+    right: 10px;
+  }
+}
+
+.blog-details p,
+.blog-details hr {
+  @apply mb-8;
+}
+
+.blog-details hr {
+  @apply border-border dark:border-dark_border;
+}
+
+.blog-details strong {
+  @apply font-bold dark:text-white;
+}
+
+.blog-details ul {
+  @apply mb-8 list-inside list-disc space-y-3;
+}
+
+.blog-details ol {
+  @apply mb-8 list-inside list-decimal space-y-3;
+}
+
+.blog-details h1 {
+  @apply mb-8 text-3xl font-bold text-midnight_text dark:text-white sm:text-4xl md:text-[40px] md:leading-[1.28];
+}
+
+.blog-details h2 {
+  @apply mb-8 text-2xl font-bold text-midnight_text dark:text-white sm:text-3xl md:text-[35px] md:leading-[1.28];
+}
+
+.blog-details h3 {
+  @apply mb-6 text-2xl font-bold dark:text-white sm:text-[28px] sm:leading-[40px];
+}
+
+/* Shiny Text Animation */
+@keyframes shiny {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.shiny-text {
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  animation: shiny 3s linear infinite;
+}
+
+.logos svg {
+  width: 250px !important;
+}
