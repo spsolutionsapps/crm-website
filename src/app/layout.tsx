@@ -10,7 +10,7 @@ import { Metadata } from "next";
 const inter = Inter({ subsets: ["latin"] });
 
 const isProd = process.env.NODE_ENV === "production";
-const basePath = isProd ? `/sp-solutions` : "";
+const basePath = ""; // Servir desde la raíz del dominio
 
 export const metadata: Metadata = {
   icons: {
