@@ -20,10 +20,10 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
       
-      - name: Build CSS
-        run: npm run build:css
+      - name: Build Next.js
+        run: npm run build
       
       - name: Deploy to Digital Ocean
         uses: appleboy/scp-action@master
@@ -32,6 +32,34 @@ jobs:
           username: ${{ secrets.DO_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
-          source: "index.html,send-email.php,css/,js/,img/,fav/"
+          source: ".next/standalone/**,.next/static/**,public/**"
           target: ${{ secrets.DO_DEPLOY_PATH }}
           strip_components: 0
+      
+      - name: Restart Next.js Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USER }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: 22
+          script: |
+            DEPLOY_PATH="${{ secrets.DO_DEPLOY_PATH }}"
+            cd "$DEPLOY_PATH/.next/standalone" || exit 1
+            # Crear enlaces simbólicos para .next/static y public si no existen
+            if [ ! -L ".next" ] && [ -d "../../.next/static" ]; then
+              mkdir -p .next
+              ln -sf ../../.next/static .next/static
+            fi
+            if [ ! -L "public" ] && [ -d "../../public" ]; then
+              ln -sf ../../public public
+            fi
+            # Reiniciar con PM2
+            if command -v pm2 &> /dev/null; then
+              pm2 delete nextjs 2>/dev/null || true
+              PORT=3000 pm2 start server.js --name nextjs
+              pm2 save
+            else
+              pkill -f "node.*server.js" || true
+              PORT=3000 nohup node server.js > /dev/null 2>&1 &
+            fi
