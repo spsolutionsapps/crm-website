@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.DO_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
-          source: ".next/standalone/**,.next/static/**,.next/BUILD_ID,.next/routes-manifest.json,.next/prerender-manifest.json,.next/server/**,public/**"
+          source: ".next/standalone/**,.next/static/**,.next/server/**,.next/BUILD_ID,.next/*.json,public/**"
           target: ${{ secrets.DO_DEPLOY_PATH }}
           strip_components: 0
       
@@ -55,28 +55,14 @@ jobs:
             # Ir al directorio standalone
             cd .next/standalone || exit 1
             
-            # Crear enlaces simbólicos para .next/static y public
-            # Next.js standalone necesita .next/static como enlace simbólico
-            if [ -d "../../.next/static" ]; then
+            # Crear enlace simbólico completo al directorio .next principal
+            # Esto es más simple y evita problemas con archivos faltantes
+            if [ -d "../../.next" ]; then
               rm -rf .next 2>/dev/null || true
-              mkdir -p .next
-              ln -sf ../../.next/static .next/static
-              echo "Enlace simbólico .next/static creado"
-              # Copiar BUILD_ID, routes-manifest y prerender-manifest si existen
-              if [ -f "../../.next/BUILD_ID" ]; then
-                cp ../../.next/BUILD_ID .next/BUILD_ID
-                echo "BUILD_ID copiado"
-              fi
-              if [ -f "../../.next/routes-manifest.json" ]; then
-                cp ../../.next/routes-manifest.json .next/routes-manifest.json
-                echo "routes-manifest.json copiado"
-              fi
-              if [ -f "../../.next/prerender-manifest.json" ]; then
-                cp ../../.next/prerender-manifest.json .next/prerender-manifest.json
-                echo "prerender-manifest.json copiado"
-              fi
+              ln -sf ../../.next .next
+              echo "Enlace simbólico .next creado"
               # Verificar que el enlace funciona
-              ls -la .next/
+              ls -la .next | head -5
             fi
             
             if [ -d "../../public" ]; then
