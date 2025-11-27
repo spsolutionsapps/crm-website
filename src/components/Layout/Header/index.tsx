@@ -51,10 +51,10 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`fixed h-24 top-0 py-1 z-50 w-full dark:bg-transparent transition-all ${
+      className={`fixed h-24 top-0 py-1 z-50 w-full transition-all backdrop-blur-md ${
         sticky
-          ? 'shadow-lg bg-white dark:shadow-dark-md dark:bg-darklight!'
-          : 'shadow-none'
+          ? 'bg-white/80 dark:bg-darklight/86'
+          : 'bg-transparent dark:bg-transparent'
       }`}>
       <div className='container mx-auto max-w-6xl flex items-center justify-between p-6'>
         <Logo />
