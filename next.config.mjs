@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const isProd = process.env.NODE_ENV === "production";
-const basePath = isProd ? `/sp-solutions` : "";
+const basePath = ""; // Servir desde la raíz del dominio
 // Solo usar export estático si no se necesita NextAuth (API routes)
 const useStaticExport = process.env.USE_STATIC_EXPORT === "true";
 

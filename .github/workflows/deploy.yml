@@ -23,7 +23,7 @@ jobs:
         run: npm ci --legacy-peer-deps
       
       - name: Build Next.js
-        run: npm run build
+        run: NODE_ENV=production npm run build
       
       - name: Deploy to Digital Ocean
         uses: appleboy/scp-action@master
@@ -36,7 +36,7 @@ jobs:
           target: ${{ secrets.DO_DEPLOY_PATH }}
           strip_components: 0
       
-      - name: Restart Next.js Server
+      - name: Setup Next.js and Restart Server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DO_HOST }}
@@ -45,20 +45,40 @@ jobs:
           port: 22
           script: |
             DEPLOY_PATH="${{ secrets.DO_DEPLOY_PATH }}"
-            cd "$DEPLOY_PATH/.next/standalone" || exit 1
-            # Crear enlaces simbólicos para .next/static y public si no existen
-            if [ ! -L ".next" ] && [ -d "../../.next/static" ]; then
+            cd "$DEPLOY_PATH" || exit 1
+            
+            # Verificar que los archivos se copiaron correctamente
+            echo "Verificando estructura de archivos..."
+            ls -la .next/standalone/ | head -10
+            ls -la .next/static/ | head -10
+            
+            # Ir al directorio standalone
+            cd .next/standalone || exit 1
+            
+            # Crear enlaces simbólicos para .next/static y public
+            if [ -d "../../.next/static" ]; then
+              rm -rf .next 2>/dev/null || true
               mkdir -p .next
               ln -sf ../../.next/static .next/static
+              echo "Enlace simbólico .next/static creado"
             fi
-            if [ ! -L "public" ] && [ -d "../../public" ]; then
+            
+            if [ -d "../../public" ]; then
+              rm -f public 2>/dev/null || true
               ln -sf ../../public public
+              echo "Enlace simbólico public creado"
             fi
+            
+            # Verificar enlaces
+            ls -la .next/
+            ls -la public 2>/dev/null || echo "public no encontrado"
+            
             # Reiniciar con PM2
             if command -v pm2 &> /dev/null; then
               pm2 delete nextjs 2>/dev/null || true
               PORT=3000 pm2 start server.js --name nextjs
               pm2 save
+              pm2 list
             else
               pkill -f "node.*server.js" || true
               PORT=3000 nohup node server.js > /dev/null 2>&1 &
