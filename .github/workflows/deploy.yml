@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.DO_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
-          source: ".next/standalone/**,.next/static/**,public/**"
+          source: ".next/standalone/**,.next/static/**,.next/BUILD_ID,.next/routes-manifest.json,.next/server/**,public/**"
           target: ${{ secrets.DO_DEPLOY_PATH }}
           strip_components: 0
       
@@ -56,11 +56,23 @@ jobs:
             cd .next/standalone || exit 1
             
             # Crear enlaces simbólicos para .next/static y public
+            # Next.js standalone necesita .next/static como enlace simbólico
             if [ -d "../../.next/static" ]; then
               rm -rf .next 2>/dev/null || true
               mkdir -p .next
               ln -sf ../../.next/static .next/static
               echo "Enlace simbólico .next/static creado"
+              # Copiar BUILD_ID y routes-manifest si existen
+              if [ -f "../../.next/BUILD_ID" ]; then
+                cp ../../.next/BUILD_ID .next/BUILD_ID
+                echo "BUILD_ID copiado"
+              fi
+              if [ -f "../../.next/routes-manifest.json" ]; then
+                cp ../../.next/routes-manifest.json .next/routes-manifest.json
+                echo "routes-manifest.json copiado"
+              fi
+              # Verificar que el enlace funciona
+              ls -la .next/
             fi
             
             if [ -d "../../public" ]; then
@@ -69,17 +81,29 @@ jobs:
               echo "Enlace simbólico public creado"
             fi
             
-            # Verificar enlaces
-            ls -la .next/
-            ls -la public 2>/dev/null || echo "public no encontrado"
+            # Verificar que server.js existe
+            if [ ! -f "server.js" ]; then
+              echo "ERROR: server.js no encontrado en $(pwd)"
+              exit 1
+            fi
             
-            # Reiniciar con PM2
+            # Verificar estructura antes de iniciar
+            echo "Estructura antes de iniciar:"
+            pwd
+            ls -la | head -10
+            ls -la .next/ 2>/dev/null || echo ".next no existe"
+            
+            # Reiniciar con PM2 desde el directorio correcto
             if command -v pm2 &> /dev/null; then
               pm2 delete nextjs 2>/dev/null || true
+              cd "$DEPLOY_PATH/.next/standalone"
               PORT=3000 pm2 start server.js --name nextjs
               pm2 save
+              sleep 2
               pm2 list
+              pm2 logs nextjs --lines 20 --nostream
             else
               pkill -f "node.*server.js" || true
+              cd "$DEPLOY_PATH/.next/standalone"
               PORT=3000 nohup node server.js > /dev/null 2>&1 &
             fi
