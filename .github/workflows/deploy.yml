@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.DO_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
-          source: ".next/standalone/**,.next/static/**,.next/BUILD_ID,.next/routes-manifest.json,.next/server/**,public/**"
+          source: ".next/standalone/**,.next/static/**,.next/BUILD_ID,.next/routes-manifest.json,.next/prerender-manifest.json,.next/server/**,public/**"
           target: ${{ secrets.DO_DEPLOY_PATH }}
           strip_components: 0
       
@@ -62,7 +62,7 @@ jobs:
               mkdir -p .next
               ln -sf ../../.next/static .next/static
               echo "Enlace simbólico .next/static creado"
-              # Copiar BUILD_ID y routes-manifest si existen
+              # Copiar BUILD_ID, routes-manifest y prerender-manifest si existen
               if [ -f "../../.next/BUILD_ID" ]; then
                 cp ../../.next/BUILD_ID .next/BUILD_ID
                 echo "BUILD_ID copiado"
@@ -70,6 +70,10 @@ jobs:
               if [ -f "../../.next/routes-manifest.json" ]; then
                 cp ../../.next/routes-manifest.json .next/routes-manifest.json
                 echo "routes-manifest.json copiado"
+              fi
+              if [ -f "../../.next/prerender-manifest.json" ]; then
+                cp ../../.next/prerender-manifest.json .next/prerender-manifest.json
+                echo "prerender-manifest.json copiado"
               fi
               # Verificar que el enlace funciona
               ls -la .next/
