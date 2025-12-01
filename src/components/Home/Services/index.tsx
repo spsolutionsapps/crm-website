@@ -76,6 +76,7 @@ const Services = () => {
                         alt={category.title}
                         width={48}
                         height={48}
+                        loading="lazy"
                         className='w-12 h-12'
                       />
                     </div>

@@ -2,7 +2,7 @@
     "name": "venus_project",
     "version": "1.0.1",
     "private": true,
-  "scripts": {
+    "scripts": {
         "dev": "next dev",
         "build": "next build",
         "export": "next build",
@@ -29,13 +29,14 @@
         "pg": "^8.16.3",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
+        "react-google-recaptcha-v3": "^1.11.0",
         "react-hot-toast": "^2.4.1",
         "react-slick": "^0.30.2",
         "remark": "^15.0.1",
         "remark-html": "^16.0.1",
         "slick-carousel": "^1.8.1"
     },
-  "devDependencies": {
+    "devDependencies": {
         "@tailwindcss/postcss": "^4.1.17",
         "@types/aos": "^3.0.7",
         "@types/bcrypt": "^5.0.2",
@@ -50,7 +51,7 @@
         "typescript": "^5"
     },
     "optionalDependencies": {
-        "better-sqlite3": "^11.3.0",
-        "@tailwindcss/oxide-win32-x64-msvc": "^4.1.17"
-  }
+        "@tailwindcss/oxide-win32-x64-msvc": "^4.1.17",
+        "better-sqlite3": "^11.3.0"
+    }
 }

@@ -130,6 +130,7 @@ const PortfolioCard = () => {
                     alt={item.alt}
                     width={1200}
                     height={800}
+                    loading="lazy"
                     style={{ width: '100%', height: 'auto' }}
                     className='group-hover:scale-110 group-hover:cursor-pointer transition-all duration-500'
                   />
