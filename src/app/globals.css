@@ -271,3 +271,26 @@ body {
 .logos svg {
   width: 250px !important;
 }
+
+/* Hero section background gradient */
+.bg-inicio-gradient {
+  background: #3a82c9;
+  background: linear-gradient(158deg, rgb(7 26 43) 0%, rgb(0 91 180) 95%);
+}
+
+/* Services section background */
+.bg-services-section {
+  background: rgb(7 26 43);
+}
+
+/* Services card background */
+.bg-services-card {
+  background: #3a82c9;
+  background: linear-gradient(158deg, rgb(0 40 76) 0%, rgb(14 23 52) 95%);
+  border: 1px solid #012f6d;
+}
+
+/* Estilos para los tags de servicios */
+.service-tag {
+  /* Sin background, border ni padding */
+}

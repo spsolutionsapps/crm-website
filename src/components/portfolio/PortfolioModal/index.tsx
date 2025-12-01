@@ -17,21 +17,10 @@ interface PortfolioModalProps {
   isOpen: boolean
   onClose: () => void
   item: PortfolioItem | null
-  items?: PortfolioItem[]
-  currentIndex?: number
-  onNext?: () => void
-  onPrevious?: () => void
 }
 
-const PortfolioModal: React.FC<PortfolioModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  item, 
-  items = [], 
-  currentIndex = 0,
-  onNext,
-  onPrevious 
-}) => {
+const PortfolioModal: React.FC<PortfolioModalProps> = ({ isOpen, onClose, item }) => {
+  // Bloquear scroll del body cuando el modal está abierto
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -43,33 +32,27 @@ const PortfolioModal: React.FC<PortfolioModalProps> = ({
     }
   }, [isOpen])
 
+  // Cerrar con tecla ESC
   useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose()
-      } else if (e.key === 'ArrowLeft' && onPrevious) {
-        onPrevious()
-      } else if (e.key === 'ArrowRight' && onNext) {
-        onNext()
       }
     }
     if (isOpen) {
-      window.addEventListener('keydown', handleKeyPress)
+      window.addEventListener('keydown', handleEscape)
     }
     return () => {
-      window.removeEventListener('keydown', handleKeyPress)
+      window.removeEventListener('keydown', handleEscape)
     }
-  }, [isOpen, onClose, onNext, onPrevious])
-
-  const canGoPrevious = items.length > 0 && currentIndex > 0
-  const canGoNext = items.length > 0 && currentIndex < items.length - 1
+  }, [isOpen, onClose])
 
   if (!isOpen || !item) return null
 
   return (
     <div
       className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
-      onClick={onClose}
+      onClick={onClose} // Cerrar al hacer clic fuera
     >
       {/* Header con título y botón cerrar - fuera del modal */}
       <div className="absolute top-0 left-0 right-0 px-6 py-4 flex justify-between items-center z-20">
@@ -77,56 +60,19 @@ const PortfolioModal: React.FC<PortfolioModalProps> = ({
         <button 
           onClick={onClose} 
           aria-label="Cerrar modal"
-          className="text-white hover:text-primary transition-colors p-2"
+          className="text-white hover:text-primary transition-colors"
         >
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
       </div>
 
-      {/* Flechas de navegación */}
-      {items.length > 1 && (
-        <>
-          {/* Flecha izquierda */}
-          {canGoPrevious && onPrevious && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                onPrevious()
-              }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-4 text-white transition-all hover:scale-110"
-              aria-label="Proyecto anterior"
-            >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m15 18-6-6 6-6"/>
-              </svg>
-            </button>
-          )}
-
-          {/* Flecha derecha */}
-          {canGoNext && onNext && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                onNext()
-              }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-4 text-white transition-all hover:scale-110"
-              aria-label="Siguiente proyecto"
-            >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m9 18 6-6-6-6"/>
-              </svg>
-            </button>
-          )}
-        </>
-      )}
-
       {/* Modal blanco centrado */}
       <div
         className="absolute inset-0 flex items-center justify-center p-4"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()} // Evitar que se cierre al hacer clic dentro
       >
         <div
           className="bg-white rounded-lg max-w-7xl w-full max-h-[85vh] overflow-y-auto shadow-2xl"
@@ -181,8 +127,4 @@ const PortfolioModal: React.FC<PortfolioModalProps> = ({
 }
 
 export default PortfolioModal
-
-
-
-
 

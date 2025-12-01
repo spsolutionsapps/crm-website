@@ -39,16 +39,34 @@ function PrevArrow(props: any) {
 
 const PortfolioCard = () => {
   const [selectedItem, setSelectedItem] = useState<any>(null)
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleItemClick = (item: any) => {
+  const handleItemClick = (item: any, index: number) => {
     setSelectedItem(item)
+    setCurrentIndex(index)
     setIsModalOpen(true)
   }
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setSelectedItem(null)
+  }
+
+  const handleNext = () => {
+    if (currentIndex < portfolioinfo.length - 1) {
+      const nextIndex = currentIndex + 1
+      setCurrentIndex(nextIndex)
+      setSelectedItem(portfolioinfo[nextIndex])
+    }
+  }
+
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      const prevIndex = currentIndex - 1
+      setCurrentIndex(prevIndex)
+      setSelectedItem(portfolioinfo[prevIndex])
+    }
   }
 
   const settings = {
@@ -104,7 +122,7 @@ const PortfolioCard = () => {
               <div
                 key={index}
                 className={`px-3 group ${index % 2 !== 0 ? 'lg:mt-24 ' : ''}`}
-                onClick={() => handleItemClick(item)}
+                onClick={() => handleItemClick(item, index)}
               >
                 <div className='relative overflow-hidden rounded-lg cursor-pointer'>
                   <Image
@@ -131,6 +149,10 @@ const PortfolioCard = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         item={selectedItem}
+        items={portfolioinfo}
+        currentIndex={currentIndex}
+        onNext={handleNext}
+        onPrevious={handlePrevious}
       />
     </>
   )

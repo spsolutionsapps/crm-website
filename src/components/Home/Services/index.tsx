@@ -1,12 +1,32 @@
-import React from 'react'
-import { Servicebox } from '@/app/api/data'
+'use client'
+import React, { useState } from 'react'
+import { ServiceCategories } from '@/app/api/data'
 import Image from 'next/image'
 import ShinyText from '@/components/TextAnimations/ShinyText'
 
 const Services = () => {
+  // Estado para controlar qué categorías están expandidas
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    new Set(ServiceCategories.filter(cat => cat.defaultExpanded).map(cat => cat.id))
+  )
+
+  // Función para expandir/colapsar categorías
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(categoryId)) {
+        newSet.delete(categoryId) // Si está expandida, la colapsa
+      } else {
+        newSet.add(categoryId) // Si está colapsada, la expande
+      }
+      return newSet
+    })
+  }
+
   return (
     <section className='bg-section dark:bg-darklight scroll-mt-24' id='services'>
       <div className='container mx-auto max-w-6xl px-4'>
+        {/* Encabezado de la sección */}
         <div
           className='flex gap-2 items-center justify-center'
           data-aos='fade-up'
@@ -17,8 +37,10 @@ const Services = () => {
             Nuestros servicios
           </span>
         </div>
+        
+        {/* Título principal */}
         <h2
-          className='sm:text-4xl text-[28px] leading-tight font-bold text-midnight_text md:text-center text-start pt-7 pb-20 md:w-4/6 w-full m-auto dark:text-white'
+          className='sm:text-4xl text-[28px] leading-tight font-bold text-midnight_text md:text-center text-start pt-7 pb-12 md:w-4/6 w-full m-auto dark:text-white'
           data-aos='fade-up'
           data-aos-delay='200'
           data-aos-duration='1000'>
@@ -28,30 +50,97 @@ const Services = () => {
             duration={3}
           />
         </h2>
-        <div className='grid md:grid-cols-12 sm:grid-cols-8 grid-cols-1 gap-7'>
-          {Servicebox.map((item, index) => (
-            <div
-              key={index}
-              data-aos='fade-up'
-              data-aos-delay={`${index * 200}`}
-              data-aos-duration='1000'
-              data-aos-offset='300'
-              className='col-span-4 bg-white flex flex-col justify-between items-center text-center py-14 px-7 rounded-md gap-8 dark:bg-darkmode'>
-              <Image
-                src={item.icon}
-                alt='Service Box'
-                width={0}
-                height={0}
-                className='w-10 h-10 bg-no-repeat inline-block bg-contain'
-              />
-              <h3 className='max-w-44 mx-auto text-2xl font-bold'>
-                {item.title}
-              </h3>
-              <p className='dark:text-white/50 text-base font-normal'>
-                {item.description}
-              </p>
-            </div>
-          ))}
+        
+        {/* Lista de categorías */}
+        <div className='max-w-2xl mx-auto space-y-4'>
+          {ServiceCategories.map((category, index) => {
+            const isExpanded = expandedCategories.has(category.id)
+            
+            return (
+              <div
+                key={category.id}
+
+                className='bg-services-card rounded-lg overflow-hidden'
+              >
+                {/* Botón/Header de la categoría */}
+                <button
+                  onClick={() => toggleCategory(category.id)}
+                  className='w-full flex items-center justify-between p-6 transition-colors cursor-pointer hover:bg-opacity-90'
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className='flex items-center gap-6'>
+                    {/* Icono de la categoría */}
+                    <div className='w-12 h-12 flex items-center justify-center flex-shrink-0'>
+                      <Image
+                        src={category.icon}
+                        alt={category.title}
+                        width={48}
+                        height={48}
+                        className='w-12 h-12'
+                      />
+                    </div>
+                    {/* Título de la categoría */}
+                    <h3 className='text-xl font-semibold text-white'>
+                      {category.title}
+                    </h3>
+                  </div>
+                  
+                  {/* Icono de expandir/colapsar */}
+                  <div className='w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0' style={{ borderColor: '#012f6d' }}>
+                    {isExpanded ? (
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='20'
+                        height='20'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                        stroke='white'
+                        strokeWidth='2'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                      >
+                        <line x1='5' y1='12' x2='19' y2='12' />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='20'
+                        height='20'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                        stroke='white'
+                        strokeWidth='2'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                      >
+                        <line x1='12' y1='5' x2='12' y2='19' />
+                        <line x1='5' y1='12' x2='19' y2='12' />
+                      </svg>
+                    )}
+                  </div>
+                </button>
+
+                {/* Contenido expandible con los servicios */}
+                {isExpanded && (
+                  <div className='px-6 pb-6 pt-2'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                      {category.services.map((service, serviceIndex) => (
+                        <div
+                          key={serviceIndex}
+                          className='service-tag flex items-center gap-4 mb-5'
+                        >
+                          <span className='text-2xl leading-none flex-shrink-0'>{service.icon}</span>
+                          <span className='text-white text-[15px] font-medium'>
+                            {service.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>
