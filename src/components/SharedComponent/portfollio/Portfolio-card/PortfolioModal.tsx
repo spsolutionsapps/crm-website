@@ -142,6 +142,7 @@ const PortfolioModal: React.FC<PortfolioModalProps> = ({
                   alt={item.alt}
                   width={1200}
                   height={800}
+                  quality={80}
                   className="w-full h-auto rounded-lg"
                 />
               </div>

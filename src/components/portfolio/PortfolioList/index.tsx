@@ -34,6 +34,7 @@ const PortfolioList = () => {
                   alt={item.alt}
                   width={1200}
                   height={800}
+                  loading="lazy"
                   style={{ width: '100%', height: 'auto' }}
                 />
               </div>
