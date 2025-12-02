@@ -95,8 +95,7 @@ export default async function BlogHead({ params }: Props) {
                                 className="rounded-full"
                                 width={84}
                                 height={84}
-                                loading="lazy"
-                                quality={75}
+                                quality={100}
                                 style={{ width: 'auto', height: 'auto' }}
                             />
                             <div>

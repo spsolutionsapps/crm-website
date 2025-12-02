@@ -109,8 +109,7 @@ const ContactForm = () => {
                 alt='Contact'
                 width={1300}
                 height={0}
-                loading="lazy"
-                quality={75}
+                quality={100}
                 style={{ width: '100%', height: 'auto' }}
                 className='bg-no-repeat bg-contain'
               />

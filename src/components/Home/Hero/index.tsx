@@ -39,7 +39,7 @@ const Hero = () => {
             alt='hero-image'
             width={350}
             height={150}
-            quality={85}
+            quality={100}
             priority
             style={{ width: '100%', height: 'auto' }}
           />

@@ -4,12 +4,8 @@ import Image from 'next/image'
 import { getImgPath } from '@/utils/image'
 import toast, { Toaster } from 'react-hot-toast'
 import ShinyText from '@/components/TextAnimations/ShinyText'
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 const Contactform = () => {
-  // useGoogleReCaptcha puede retornar undefined si no hay provider o site key
-  const { executeRecaptcha } = useGoogleReCaptcha() || {}
-
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     nombre: '',
@@ -31,22 +27,6 @@ const Contactform = () => {
     setLoading(true)
 
     try {
-      // Obtener token de reCAPTCHA si está disponible
-      let recaptchaToken: string | undefined
-      if (executeRecaptcha) {
-        try {
-          recaptchaToken = await executeRecaptcha('submit_contact_form')
-        } catch (error) {
-          console.error('Error obteniendo token de reCAPTCHA:', error)
-          // En desarrollo, continuar sin token si no está configurado
-          if (process.env.NODE_ENV === 'production') {
-            toast.error('Error de verificación de seguridad. Por favor intenta nuevamente.')
-            setLoading(false)
-            return
-          }
-        }
-      }
-
       const response = await fetch('/api/consultas', {
         method: 'POST',
         headers: {
@@ -58,7 +38,6 @@ const Contactform = () => {
           email: formData.email,
           telefono: formData.telefono,
           mensaje: formData.mensaje,
-          recaptchaToken,
         }),
       })
 
@@ -77,7 +56,6 @@ const Contactform = () => {
         toast.error(data.error || 'Error al enviar la consulta')
       }
     } catch (error) {
-      console.error('Error:', error)
       toast.error('Error de conexión')
     } finally {
       setLoading(false)
@@ -128,9 +106,8 @@ const Contactform = () => {
                   alt='Google-pay'
                   width={100}
                   height={20}
-                  loading="lazy"
                   style={{ width: 'auto', height: 'auto' }}
-                  quality={75}
+                  quality={100}
                   className='w_f max-w-28 w-full h-5'
                 />
                 <Image
@@ -138,9 +115,8 @@ const Contactform = () => {
                   alt='play-juction'
                   width={100}
                   height={20}
-                  loading="lazy"
                   style={{ width: 'auto', height: 'auto' }}
-                  quality={75}
+                  quality={100}
                   className='w_f max-w-24 w-full h-6'
                 />
                 <Image
@@ -148,9 +124,8 @@ const Contactform = () => {
                   alt='stripe'
                   width={150}
                   height={50}
-                  loading="lazy"
                   style={{ width: '200px', height: 'auto' }}
-                  quality={75}
+                  quality={100}
                   className='w_f max-w-14 w-full h-6'
                 />
                 <Image
@@ -158,9 +133,8 @@ const Contactform = () => {
                   alt='wise'
                   width={100}
                   height={20}
-                  loading="lazy"
                   style={{ width: 'auto', height: 'auto' }}
-                  quality={75}
+                  quality={100}
                   className='w_f max-w-16 w-full h-4'
                 />
               </div>
