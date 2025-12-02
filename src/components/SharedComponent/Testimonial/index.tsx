@@ -14,8 +14,7 @@ const Testimonial = () => {
             alt='logo'
             width={150}
             height={0}
-            loading="lazy"
-            quality={75}
+            quality={100}
             className='w_f w-94! h-52! m-auto'
           />
           <div className='pt-16 pb-28'>

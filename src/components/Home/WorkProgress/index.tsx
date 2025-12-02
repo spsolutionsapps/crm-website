@@ -127,8 +127,7 @@ const Progresswork = ({ isColorMode }: { isColorMode: Boolean }) => {
                         alt={`Kora CRM ${index + 1}`}
                         width={1200}
                         height={400}
-                        loading="lazy"
-                        quality={75}
+                        quality={100}
                         className='w-full h-auto object-contain'
                         style={{ width: '100%', height: 'auto', maxHeight: '400px' }}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
@@ -165,8 +164,7 @@ const Progresswork = ({ isColorMode }: { isColorMode: Boolean }) => {
                   alt='Sitio web autoadministrable'
                   width={1400}
                   height={500}
-                  loading="lazy"
-                  quality={75}
+                  quality={100}
                   className='w-full h-auto object-contain'
                   style={{ width: '100%', height: 'auto', maxHeight: '400px' }}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"

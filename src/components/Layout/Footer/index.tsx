@@ -16,9 +16,8 @@ const Footer: FC = () => {
                   alt='logo'
                   width={160}
                   height={50}
-                  loading="lazy"
                   style={{ width: 'auto', height: 'auto' }}
-                  quality={75}
+                  quality={100}
                   unoptimized
                 />
               </Link>

@@ -80,21 +80,20 @@ const PortfolioModal: React.FC<PortfolioModalProps> = ({ isOpen, onClose, item }
         >
           {/* Contenido: Imagen + Descripción */}
           <div className="p-6">
-            <div className="grid md:grid-cols-5 gap-6 items-center">
-              {/* Columna izquierda - Imagen (3 de 5 = 60%) */}
-              <div className="md:col-span-3">
+            <div className="grid md:grid-cols-2 gap-6 items-start">
+              {/* Imagen - izquierda */}
+              <div>
                 <Image
                   src={item.modalImage || item.image} // Usa modalImage si existe, sino image
                   alt={item.alt}
                   width={1200}
                   height={800}
-                  quality={80}
                   className="w-full h-auto rounded-lg"
                 />
               </div>
 
-              {/* Columna derecha - Descripción (2 de 5 = 40%) */}
-              <div className="md:col-span-2 flex flex-col justify-center items-center text-center space-y-4">
+              {/* Descripción - derecha */}
+              <div className="space-y-4">
                 <div>
                   <h3 className="text-xl font-semibold mb-3 text-midnight_text">Descripción</h3>
                   <p className="text-base leading-relaxed text-secondary">

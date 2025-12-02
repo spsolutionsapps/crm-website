@@ -285,12 +285,18 @@ body {
 
 /* Services card background */
 .bg-services-card {
-  background: #3a82c9;
-  background: linear-gradient(158deg, rgb(0 40 76) 0%, rgb(14 23 52) 95%);
-  border: 1px solid #012f6d;
+  background: rgb(15 35 55);
 }
 
 /* Estilos para los tags de servicios */
 .service-tag {
-  /* Sin background, border ni padding */
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.service-tag:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }

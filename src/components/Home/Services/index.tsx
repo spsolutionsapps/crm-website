@@ -76,7 +76,6 @@ const Services = () => {
                         alt={category.title}
                         width={48}
                         height={48}
-                        loading="lazy"
                         className='w-12 h-12'
                       />
                     </div>
@@ -87,7 +86,7 @@ const Services = () => {
                   </div>
                   
                   {/* Icono de expandir/colapsar */}
-                  <div className='w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0' style={{ borderColor: '#012f6d' }}>
+                  <div className='w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center hover:border-white/60 transition-all flex-shrink-0'>
                     {isExpanded ? (
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -128,10 +127,10 @@ const Services = () => {
                       {category.services.map((service, serviceIndex) => (
                         <div
                           key={serviceIndex}
-                          className='service-tag flex items-center gap-4 mb-5'
+                          className='service-tag flex items-center gap-4 p-5 rounded-lg'
                         >
                           <span className='text-2xl leading-none flex-shrink-0'>{service.icon}</span>
-                          <span className='text-white text-[15px] font-medium'>
+                          <span className='text-white text-base font-medium'>
                             {service.name}
                           </span>
                         </div>
