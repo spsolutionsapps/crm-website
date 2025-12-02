@@ -34,6 +34,31 @@ const Hero = () => {
         </div>
 
         <div className="md:col-span-6 col-span-12 relative">
+          {/* Desktop only: heroFly y herobg */}
+          <div className='heroFly hidden md:block'>
+            <Image
+              src={getImgPath('/images/heroFly.png')}
+              alt='hero-image'
+              width={350}
+              height={150}
+              quality={100}
+              priority
+              style={{ width: '100%', height: 'auto' }}
+            />  
+          </div>
+
+          <Image
+            src={getImgPath('/images/herobg.png')}
+            alt='hero-image'
+            width={350}
+            height={150}
+            quality={100}
+            priority
+            style={{ width: '100%', height: 'auto' }}
+            className="hidden md:block"
+          />
+
+          {/* Mobile only: hero.png */}
           <Image
             src={getImgPath('/images/hero.png')}
             alt='hero-image'
@@ -42,7 +67,10 @@ const Hero = () => {
             quality={100}
             priority
             style={{ width: '100%', height: 'auto' }}
+            className="block md:hidden"
           />
+
+
         </div>
       </div>
     </section>
