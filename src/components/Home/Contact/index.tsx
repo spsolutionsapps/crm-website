@@ -11,6 +11,7 @@ const Contactform = () => {
   const { executeRecaptcha } = useGoogleReCaptcha() || {}
 
   const [loading, setLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -66,6 +67,7 @@ const Contactform = () => {
 
       if (response.ok) {
         toast.success('Consulta enviada correctamente')
+        setIsSuccess(true)
         setFormData({
           nombre: '',
           apellido: '',
@@ -73,8 +75,13 @@ const Contactform = () => {
           telefono: '',
           mensaje: ''
         })
+        // Reset success state after 5 seconds
+        setTimeout(() => {
+          setIsSuccess(false)
+        }, 5000)
       } else {
         toast.error(data.error || 'Error al enviar la consulta')
+        setIsSuccess(false)
       }
     } catch (error) {
       toast.error('Error de conexión')
@@ -167,14 +174,14 @@ const Contactform = () => {
             data-aos-duration='1000'
             className="relative before:content-[''] before:absolute before:bg-[url('/images/contact/form-line.png')] before:bg-no-repeat before:w-[13rem] before:h-24 before:top-5% before:bg-contain before:left-[35%] before:z-1 before:translate-x-full lg:before:inline-block before:hidden after:content-[''] after:absolute after:bg-[url('/images/contact/from-round-line.png')] after:bg-no-repeat after:w-[6.3125rem] after:h-[6.3125rem] after:bg-contain after:top-1/2 after:-left-[25%] after:z-1 after:translate-x-1/2 after:translate-y-1/2 md:after:inline-block after:hidden md:row-start-1 row-start-2 md:col-start-8 col-start-1 row-end-2 col-end-13">
             <div className='lg:mt-0 mt-8  bg-white dark:bg-darkmode max-w-[50rem] m-auto pt-[2.1875rem] pb-8 px-[2.375rem] rounded-md relative z-10'>
-              <h2 className='sm:text-3xl text-lg font-bold text-midnight_text mb-3 dark:text-white'>
+              <h2 className='sm:text-3xl text-lg font-bold text-midnight_text mb-[26px] md:mb-3 dark:text-white'>
                 Envíanos tu consulta
               </h2>
               <Toaster position="top-right" />
               <form onSubmit={handleSubmit} className='flex w-full m-auto justify-between flex-wrap gap-4'>
-                <div className='flex gap-4'>
+                <div className='flex flex-col md:flex-row gap-4 w-full'>
                   <div className='w-full'>
-                    <label className='text-midnight_text dark:text-white text-sm mb-1 block'>
+                    <label className='text-midnight_text dark:text-white text-sm mb-[10px] block'>
                       Nombre <span className='text-red-500'>*</span>
                     </label>
                     <input
@@ -187,7 +194,7 @@ const Contactform = () => {
                     />
                   </div>
                   <div className='w-full'>
-                    <label className='text-midnight_text dark:text-white text-sm mb-1 block'>
+                    <label className='text-midnight_text dark:text-white text-sm mb-[10px] block'>
                       Apellido <span className='text-red-500'>*</span>
                     </label>
                     <input
@@ -200,9 +207,9 @@ const Contactform = () => {
                     />
                   </div>
                 </div>
-                <div className='flex gap-4'>
+                <div className='flex flex-col md:flex-row gap-4 w-full'>
                   <div className='w-full'>
-                    <label className='text-midnight_text dark:text-white text-sm mb-1 block'>
+                    <label className='text-midnight_text dark:text-white text-sm mb-[10px] block'>
                       Email <span className='text-red-500'>*</span>
                     </label>
                     <input
@@ -215,7 +222,7 @@ const Contactform = () => {
                     />
                   </div>
                   <div className='w-full'>
-                    <label className='text-midnight_text dark:text-white text-sm mb-1 block'>
+                    <label className='text-midnight_text dark:text-white text-sm mb-[10px] block'>
                       Teléfono
                     </label>
                     <input
@@ -228,7 +235,7 @@ const Contactform = () => {
                   </div>
                 </div>
                 <div className='w-full'>
-                  <label className='text-midnight_text dark:text-white text-sm mb-1 block'>
+                  <label className='text-midnight_text dark:text-white text-sm mb-[10px] block'>
                     Mensaje <span className='text-red-500'>*</span>
                   </label>
                   <textarea
@@ -241,10 +248,35 @@ const Contactform = () => {
                 </div>
                 <div className='w-full'>
                   <button
-                    className='w-full bg-primary hover:bg-blue-700 text-white py-3 rounded-lg disabled:opacity-50'
+                    className={`w-full py-3 rounded-lg disabled:opacity-50 transition-all duration-300 md:bg-primary md:hover:bg-blue-700 ${
+                      isSuccess 
+                        ? 'bg-green-500 md:bg-primary text-white' 
+                        : 'bg-primary hover:bg-blue-700 text-white'
+                    }`}
                     type='submit'
-                    disabled={loading}>
-                    {loading ? 'Enviando...' : 'Enviar Consulta'}
+                    disabled={loading || isSuccess}>
+                    {loading ? (
+                      'Enviando...'
+                    ) : isSuccess ? (
+                      <span className='flex items-center justify-center gap-2 md:hidden'>
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width="20" 
+                          height="20" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth="2" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                        >
+                          <path d="M20 6L9 17l-5-5"/>
+                        </svg>
+                        Consulta enviada
+                      </span>
+                    ) : (
+                      'Enviar Consulta'
+                    )}
                   </button>
                 </div>
                 <div className='w-full'>

@@ -15,7 +15,7 @@ const ContactForm = () => {
               </h2>
               <form className='flex flex-wrap w-full m-auto justify-between'>
                 <div className='sm:flex gap-3 w-full'>
-                  <div className='mx-0 my-2.5 flex-1'>
+                  <div className='mx-0 my-2.5 w-full sm:flex-1'>
                     <label
                       htmlFor='first-name'
                       className='pb-3 inline-block text-base'>
@@ -26,7 +26,7 @@ const ContactForm = () => {
                       type='text'
                     />
                   </div>
-                  <div className='mx-0 my-2.5 flex-1'>
+                  <div className='mx-0 my-2.5 w-full sm:flex-1'>
                     <label
                       htmlFor='last-name'
                       className='pb-3 inline-block text-base'>
@@ -39,7 +39,7 @@ const ContactForm = () => {
                   </div>
                 </div>
                 <div className='sm:flex gap-3 w-full'>
-                  <div className='mx-0 my-2.5 flex-1'>
+                  <div className='mx-0 my-2.5 w-full sm:flex-1'>
                     <label
                       htmlFor='email'
                       className='pb-3 inline-block text-base'>
@@ -50,7 +50,7 @@ const ContactForm = () => {
                       className='w-full text-base px-4 py-2.5 rounded-lg border-border dark:border-dark_border border-solid dark:text-white  dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
                     />
                   </div>
-                  <div className='mx-0 my-2.5 flex-1'>
+                  <div className='mx-0 my-2.5 w-full sm:flex-1'>
                     <label
                       htmlFor='Specialist'
                       className='pb-3 inline-block text-base'>
@@ -70,7 +70,7 @@ const ContactForm = () => {
                   </div>
                 </div>
                 <div className='sm:flex gap-3 w-full'>
-                  <div className='mx-0 my-2.5 flex-1'>
+                  <div className='mx-0 my-2.5 w-full sm:flex-1'>
                     <label
                       htmlFor='date'
                       className='pb-3 inline-block text-base'>
@@ -81,7 +81,7 @@ const ContactForm = () => {
                       type='date'
                     />
                   </div>
-                  <div className='mx-0 my-2.5 flex-1'>
+                  <div className='mx-0 my-2.5 w-full sm:flex-1'>
                     <label
                       htmlFor='time'
                       className='pb-3 inline-block text-base'>
