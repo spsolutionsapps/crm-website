@@ -98,7 +98,7 @@ export const ServiceCategories: ServiceCategory[] = [
         id: 'design',
         title: 'Diseño Web',
         icon: getImgPath('/images/services/ux-design-product_1.svg'),
-        defaultExpanded: true,
+        defaultExpanded: false,
         services: [
             {
                 name: 'Diseño de sitios web modernos, rápidos y personalizados.',

@@ -1,16 +1,64 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  
+  if (!secretKey) {
+    console.warn('RECAPTCHA_SECRET_KEY no está configurado. Saltando validación en desarrollo.');
+    // En desarrollo, si no hay secret key, permitir el envío
+    return process.env.NODE_ENV !== 'production';
+  }
+
+  try {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${secretKey}&response=${token}`,
+    });
+
+    const data = await response.json();
+    
+    // Verificar que el score sea mayor a 0.5 (reCAPTCHA v3)
+    // o que success sea true (reCAPTCHA v2)
+    return data.success === true && (data.score === undefined || data.score >= 0.5);
+  } catch (error) {
+    console.error('Error verificando reCAPTCHA:', error);
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { nombre, apellido, email, telefono, mensaje } = body;
+    const { nombre, apellido, email, telefono, mensaje, recaptchaToken } = body;
 
     if (!nombre || !apellido || !email || !mensaje) {
       return NextResponse.json(
         { error: 'Faltan campos requeridos: nombre, apellido, email y mensaje son obligatorios' },
         { status: 400 }
       );
+    }
+
+    // Verificar reCAPTCHA
+    if (recaptchaToken) {
+      const isValidRecaptcha = await verifyRecaptcha(recaptchaToken);
+      if (!isValidRecaptcha) {
+        return NextResponse.json(
+          { error: 'Verificación de seguridad fallida. Por favor intenta nuevamente.' },
+          { status: 400 }
+        );
+      }
+    } else {
+      // En producción, requerir token de reCAPTCHA
+      if (process.env.NODE_ENV === 'production') {
+        return NextResponse.json(
+          { error: 'Token de seguridad requerido' },
+          { status: 400 }
+        );
+      }
     }
 
     const stmt = db.prepare(`
