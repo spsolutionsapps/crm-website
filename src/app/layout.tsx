@@ -5,6 +5,7 @@ import NextTopLoader from 'nextjs-toploader';
 import SessionProviderComp from "@/components/nextauth/SessionProvider";
 import { AuthDialogProvider } from "./context/AuthDialogContext";
 import ConditionalLayout from "@/components/Layout/ConditionalLayout";
+import ReCaptchaProvider from "@/components/Common/ReCaptchaProvider";
 import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,6 +38,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
       <NextTopLoader />
+      <ReCaptchaProvider>
       <AuthDialogProvider>
       <SessionProviderComp session={null}>
         <ThemeProvider
@@ -50,6 +52,7 @@ export default function RootLayout({
         </ThemeProvider>
         </SessionProviderComp>
         </AuthDialogProvider>
+      </ReCaptchaProvider>
       </body>
     </html>
   );

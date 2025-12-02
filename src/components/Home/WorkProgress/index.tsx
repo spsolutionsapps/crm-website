@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -114,6 +115,14 @@ const Progresswork = ({ isColorMode }: { isColorMode: Boolean }) => {
               <p className='text-gray dark:text-white/70 text-[18px] font-semibold max-w-3xl mx-auto'>
                 Gestiona clientes, ventas, stock, leads, tareas, recordatorios, comisiones de vendedores y muchas más funcionalidades con el CRM más fácil de usar.
               </p>
+              <div className='mt-6'>
+                <Link
+                  href='/kora'
+                  className='inline-block px-6 py-3 rounded-lg bg-primary text-white hover:bg-blue-700 transition-colors font-semibold'
+                >
+                  Quiero saber más
+                </Link>
+              </div>
             </div>
 
             {/* Slider con imágenes */}

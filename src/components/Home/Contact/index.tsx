@@ -4,8 +4,12 @@ import Image from 'next/image'
 import { getImgPath } from '@/utils/image'
 import toast, { Toaster } from 'react-hot-toast'
 import ShinyText from '@/components/TextAnimations/ShinyText'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 const Contactform = () => {
+  // useGoogleReCaptcha puede retornar undefined si no hay provider o site key
+  const { executeRecaptcha } = useGoogleReCaptcha() || {}
+
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     nombre: '',
@@ -27,6 +31,22 @@ const Contactform = () => {
     setLoading(true)
 
     try {
+      // Obtener token de reCAPTCHA si está disponible
+      let recaptchaToken: string | undefined
+      if (executeRecaptcha) {
+        try {
+          recaptchaToken = await executeRecaptcha('submit_contact_form')
+        } catch (error) {
+          console.error('Error obteniendo token de reCAPTCHA:', error)
+          // En desarrollo, continuar sin token si no está configurado
+          if (process.env.NODE_ENV === 'production') {
+            toast.error('Error de verificación de seguridad. Por favor intenta nuevamente.')
+            setLoading(false)
+            return
+          }
+        }
+      }
+
       const response = await fetch('/api/consultas', {
         method: 'POST',
         headers: {
@@ -38,6 +58,7 @@ const Contactform = () => {
           email: formData.email,
           telefono: formData.telefono,
           mensaje: formData.mensaje,
+          recaptchaToken,
         }),
       })
 
@@ -98,7 +119,7 @@ const Contactform = () => {
                 </p>
               </div>
             </div>
-            <div className='pt-12'>
+            <div className='pt-12 hidden md:block'>
               <p className='text-white/50 pb-4 text-base'>Confianza de</p>
               <div className='flex items-center flex-wrap md:gap-14 gap-7 logos'>
                 <Image
@@ -229,6 +250,27 @@ const Contactform = () => {
                 <div className='w-full'>
                   <p className='text-grey dark:text-white/50 text-sm text-center'>
                     Los campos marcados con <span className='text-red-500'>*</span> son obligatorios
+                  </p>
+                  <p className='text-grey dark:text-white/40 text-xs text-center mt-2'>
+                    Este sitio está protegido por reCAPTCHA y se aplican la{' '}
+                    <a 
+                      href='https://policies.google.com/privacy' 
+                      target='_blank' 
+                      rel='noopener noreferrer'
+                      className='underline hover:text-primary'
+                    >
+                      Política de Privacidad
+                    </a>
+                    {' '}y los{' '}
+                    <a 
+                      href='https://policies.google.com/terms' 
+                      target='_blank' 
+                      rel='noopener noreferrer'
+                      className='underline hover:text-primary'
+                    >
+                      Términos de Servicio
+                    </a>
+                    {' '}de Google.
                   </p>
                 </div>
               </form>

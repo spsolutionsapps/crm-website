@@ -5,10 +5,8 @@ import Image from 'next/image'
 import ShinyText from '@/components/TextAnimations/ShinyText'
 
 const Services = () => {
-  // Estado para controlar qué categorías están expandidas
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(ServiceCategories.filter(cat => cat.defaultExpanded).map(cat => cat.id))
-  )
+  // Estado para controlar qué categorías están expandidas - todas cerradas por defecto
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
 
   // Función para expandir/colapsar categorías
   const toggleCategory = (categoryId: string) => {
@@ -40,7 +38,7 @@ const Services = () => {
         
         {/* Título principal */}
         <h2
-          className='sm:text-4xl text-[28px] leading-tight font-bold text-midnight_text md:text-center text-start pt-7 pb-12 md:w-4/6 w-full m-auto dark:text-white'
+          className='sm:text-4xl text-[28px] leading-tight font-bold text-midnight_text text-center pt-7 pb-12 md:w-4/6 w-full m-auto dark:text-white'
           data-aos='fade-up'
           data-aos-delay='200'
           data-aos-duration='1000'>
@@ -59,8 +57,8 @@ const Services = () => {
             return (
               <div
                 key={category.id}
-
-                className='bg-services-card rounded-lg overflow-hidden'
+                className='bg-services-card rounded-lg overflow-hidden border border-[#1e336b]'
+                style={{ backgroundColor: '#0c1736' }}
               >
                 {/* Botón/Header de la categoría */}
                 <button
@@ -77,6 +75,8 @@ const Services = () => {
                         width={48}
                         height={48}
                         className='w-12 h-12'
+                        loading="lazy"
+                        quality={75}
                       />
                     </div>
                     {/* Título de la categoría */}
@@ -86,7 +86,7 @@ const Services = () => {
                   </div>
                   
                   {/* Icono de expandir/colapsar */}
-                  <div className='w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center hover:border-white/60 transition-all flex-shrink-0'>
+                  <div className='w-10 h-10 rounded-full border-2 border-[#1e336b] flex items-center justify-center hover:border-[#2F73F2] transition-all flex-shrink-0'>
                     {isExpanded ? (
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -127,10 +127,10 @@ const Services = () => {
                       {category.services.map((service, serviceIndex) => (
                         <div
                           key={serviceIndex}
-                          className='service-tag flex items-center gap-4 p-5 rounded-lg'
+                          className='service-tag flex items-center gap-4 mb-5'
                         >
                           <span className='text-2xl leading-none flex-shrink-0'>{service.icon}</span>
-                          <span className='text-white text-base font-medium'>
+                          <span className='text-white text-[15px] font-medium'>
                             {service.name}
                           </span>
                         </div>
