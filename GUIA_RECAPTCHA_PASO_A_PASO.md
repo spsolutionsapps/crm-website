@@ -333,6 +333,9 @@ Si seguiste todos los pasos, tu formulario ahora está protegido contra spam. Lo
 
 **¡Mucha suerte, Marta! 💪 Si tienes alguna duda, vuelve a leer los pasos con calma. ¡Tú puedes!** 🌟
 
-site key 6LcNOx4sAAAAAHVT4YC9NEwPHdNVb0lJerhf7LpP
+site key 
 
-secret 6LcNOx4sAAAAADXjFNwJb2qjEbVu_EGGdBTrdweO
+secret 
+
+   NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6LcNOx4sAAAAAHVT4YC9NEwPHdNVb0lJerhf7LpP
+   RECAPTCHA_SECRET_KEY=6LcNOx4sAAAAADXjFNwJb2qjEbVu_EGGdBTrdweO
