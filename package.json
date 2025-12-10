@@ -11,6 +11,7 @@
         "install:prod": "npm install --omit=optional",
         "setup:db": "node scripts/setup-postgres.js",
         "test:db": "node scripts/test-db-connection.js",
+        "convert:webp": "node scripts/convert-to-webp.js",
         "postinstall": "node -e \"try { require('better-sqlite3'); } catch(e) { console.log('⚠️  better-sqlite3 no instalado (opcional). Usa PostgreSQL con DATABASE_URL o instala Visual Studio Build Tools para SQLite.'); }\""
     },
     "dependencies": {
@@ -47,6 +48,7 @@
         "@types/react-dom": "^18",
         "@types/react-slick": "^0.23.13",
         "postcss": "^8",
+        "sharp": "^0.33.5",
         "tailwindcss": "^4.1.17",
         "typescript": "^5"
     },

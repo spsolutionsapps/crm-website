@@ -37,7 +37,7 @@ const Hero = () => {
           {/* Desktop only: heroFly y herobg */}
           <div className='heroFly hidden md:block'>
             <Image
-              src={getImgPath('/images/heroFly.png')}
+              src={getImgPath('/images/heroFly.webp')}
               alt='hero-image'
               width={350}
               height={150}
@@ -48,7 +48,7 @@ const Hero = () => {
           </div>
 
           <Image
-            src={getImgPath('/images/herobg.png')}
+            src={getImgPath('/images/herobg.webp')}
             alt='hero-image'
             width={350}
             height={150}
@@ -60,7 +60,7 @@ const Hero = () => {
 
           {/* Mobile only: hero.png */}
           <Image
-            src={getImgPath('/images/hero.png')}
+            src={getImgPath('/images/hero.webp')}
             alt='hero-image'
             width={350}
             height={150}
