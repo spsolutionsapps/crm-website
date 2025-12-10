@@ -217,8 +217,8 @@ export const ServiceCategories: ServiceCategory[] = [
 
 export const portfolioinfo = [
     {
-        image: getImgPath('/images/portfolio/elebe.jpg'), // Miniatura
-        modalImage: getImgPath('/images/portfolio/elebe.jpg'), // Imagen del modal (cambiar por imagen diferente)
+        image: getImgPath('/images/portfolio/elebe.webp'), // Miniatura
+        modalImage: getImgPath('/images/portfolio/elebe.webp'), // Imagen del modal (cambiar por imagen diferente)
         alt: 'Portfolio',
         title: 'Elebe Agencia',
         slug: 'elebe',
@@ -228,8 +228,8 @@ export const portfolioinfo = [
         Class: 'md:mt-0'
     },
     {
-        image: getImgPath('/images/portfolio/rank.jpg'),
-        modalImage: getImgPath('/images/portfolio/rank.png'),
+        image: getImgPath('/images/portfolio/rank.webp'),
+        modalImage: getImgPath('/images/portfolio/rank.webp'),
         alt: 'Portfolio',
         title: 'Rank & style',
         slug: 'rank-style',
@@ -239,8 +239,8 @@ export const portfolioinfo = [
         Class: 'md:mt-24'
     },
     {
-        image: getImgPath('/images/portfolio/little.jpg'),
-        modalImage: getImgPath('/images/portfolio/little.jpg'),
+        image: getImgPath('/images/portfolio/little.webp'),
+        modalImage: getImgPath('/images/portfolio/little.webp'),
         alt: 'Portfolio',
         title: 'Little Blue',
         slug: 'little-blue',
@@ -250,8 +250,8 @@ export const portfolioinfo = [
         Class: 'md:mt-0'
     },
     {
-        image: getImgPath('/images/portfolio/instafans.jpg'),
-        modalImage: getImgPath('/images/portfolio/insta1.png'),
+        image: getImgPath('/images/portfolio/instafans.webp'),
+        modalImage: getImgPath('/images/portfolio/insta1.webp'),
         alt: 'Portfolio',
         title: 'Instafans',
         slug: 'instafan',
@@ -262,8 +262,8 @@ export const portfolioinfo = [
     },
 
     {
-        image: getImgPath('/images/portfolio/nomads.jpg'),
-        modalImage: getImgPath('/images/portfolio/nomads.jpg'),
+        image: getImgPath('/images/portfolio/nomads.webp'),
+        modalImage: getImgPath('/images/portfolio/nomads.webp'),
         alt: 'Portfolio',
         title: 'Nomads',
         slug: '',
@@ -273,8 +273,8 @@ export const portfolioinfo = [
         Class: 'md:mt-0'
     },
     {
-        image: getImgPath('/images/portfolio/meta.png'),
-        modalImage: getImgPath('/images/portfolio/meta.png'),
+        image: getImgPath('/images/portfolio/meta.webp'),
+        modalImage: getImgPath('/images/portfolio/meta.webp'),
         alt: 'Portfolio',
         title: 'Met cleaner',
         slug: 'mecleaner',

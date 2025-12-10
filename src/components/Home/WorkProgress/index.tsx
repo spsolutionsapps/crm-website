@@ -43,16 +43,16 @@ const Progresswork = ({ isColorMode }: { isColorMode: Boolean }) => {
   
   // Imágenes para Kora CRM
   const koraImages = [
-    getImgPath('/images/kora/kora1.png'),
-    getImgPath('/images/kora/kora2.png'),
-    getImgPath('/images/kora/kora3.png'),
-    getImgPath('/images/kora/kora4.png'),
-    getImgPath('/images/kora/kora5.png'),
+    getImgPath('/images/kora/kora1.webp'),
+    getImgPath('/images/kora/kora2.webp'),
+    getImgPath('/images/kora/kora3.webp'),
+    getImgPath('/images/kora/kora4.webp'),
+    getImgPath('/images/kora/kora5.webp'),
   ]
   
   // Imágenes para Sitio web autoadministrable
   const sitioImages = [
-    getImgPath('/images/elebe.png'),
+    getImgPath('/images/elebe.webp'),
   ]
 
   const sliderSettings = {

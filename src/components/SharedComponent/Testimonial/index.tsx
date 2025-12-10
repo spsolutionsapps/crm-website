@@ -10,7 +10,7 @@ const Testimonial = () => {
       <div className='container mx-auto max-w-6xl px-4'>
         <div>
           <Image
-            src={getImgPath('/images/testimonial/vector-smart.png')}
+            src={getImgPath('/images/testimonial/vector-smart.webp')}
             alt='logo'
             width={150}
             height={0}
