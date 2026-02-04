@@ -21,23 +21,30 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
           script: |
-            set -e  # falla si algo sale mal
+            set -e
 
             echo "Entrando a /var/www..."
             cd /var/www/
 
-            echo "Eliminando versión anterior..."
-            rm -rf spsolutions.app
+            # Crear la carpeta si no existe
+            mkdir -p spsolutions.app
 
-            echo "Clonando repositorio seguro con token..."
-            git clone https://${{ secrets.GH_TOKEN }}@github.com/spsolutionsapps/crm-website.git spsolutions.app
-
+            echo "Actualizando repositorio..."
             cd spsolutions.app
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "Instalando herramientas de build si faltan..."
+            sudo apt update
+            sudo apt install -y build-essential python3 make g++ pkg-config
 
             echo "Instalando dependencias (legacy-peer-deps)..."
-            rm -rf node_modules package-lock.json
-            npm cache clean --force
             npm install --legacy-peer-deps
+
+            echo "Copiando variables de entorno..."
+            if [ -f .env.production ]; then
+              cp .env.production .env
+            fi
 
             echo "Construyendo la app..."
             npm run build
@@ -47,4 +54,4 @@ jobs:
             PORT=3000 pm2 start npm --name nextjs -- start
             pm2 save
 
-            echo "Deploy finalizado correctamente 🎉"
+            echo "✅ Deploy finalizado correctamente"
