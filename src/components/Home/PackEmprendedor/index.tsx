@@ -102,7 +102,7 @@ export default function PackEmprendedor() {
                 onClick={() => setIsModalOpen(true)}
                 className="block w-full text-center py-3.5 px-6 rounded-lg font-semibold text-white transition-colors border fire"
               >
-                Quiero el Pack Emprendedor
+                Quiero el Pack Emprendedor!
               </button>
             </div>
           </div>

@@ -13,9 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      #############################
-      # Deploy Next.js Landing
-      #############################
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.9
         with:
@@ -24,9 +21,7 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
           script: |
-            echo "Limpiando caché de memoria..."
-            sudo sync
-            sudo sh -c "echo 3 > /proc/sys/vm/drop_caches"
+            set -e
 
             echo "Entrando a /var/www..."
             cd /var/www/
@@ -39,20 +34,15 @@ jobs:
 
             cd spsolutions.app
 
-            echo "Configurando variables de entorno..."
-            if [ -f .env.production ]; then
-              cp .env.production .env
-            fi
-
             echo "Instalando dependencias..."
-            npm install
+            npm install --legacy-peer-deps
 
             echo "Construyendo la app..."
-            NODE_ENV=production npm run build
+            npm run build
 
             echo "Reiniciando PM2..."
             pm2 delete nextjs 2>/dev/null || true
-            PORT=3000 pm2 start npm --name "nextjs" -- start
+            PORT=3000 pm2 start npm --name nextjs -- start
             pm2 save
 
-            echo "Deploy finalizado correctamente"
+            echo "Deploy finalizado correctamente vamoooo vamooooooooooo"
