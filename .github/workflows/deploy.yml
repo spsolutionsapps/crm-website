@@ -28,18 +28,21 @@ jobs:
             sudo sync
             sudo sh -c "echo 3 > /proc/sys/vm/drop_caches"
 
-            echo "Eliminando carpeta anterior..."
+            echo "Entrando a /var/www..."
             cd /var/www/
-            rm -rf crm-website
+
+            echo "Eliminando versión anterior..."
+            rm -rf spsolutions.app
 
             echo "Clonando repositorio..."
-            git clone git@github.com:usuario/repo-next.git crm-website
+            git clone git@github.com:usuario/repo-next.git spsolutions.app
 
-            cd crm-website
+            cd spsolutions.app
 
             echo "Configurando variables de entorno..."
-            # Ejemplo: si tienes .env.production en repo
-            cp .env.production .env
+            if [ -f .env.production ]; then
+              cp .env.production .env
+            fi
 
             echo "Instalando dependencias..."
             npm install
@@ -49,12 +52,7 @@ jobs:
 
             echo "Reiniciando PM2..."
             pm2 delete nextjs 2>/dev/null || true
-            cd .next/standalone
-            PORT=3000 pm2 start server.js --name nextjs
+            PORT=3000 pm2 start npm --name "nextjs" -- start
             pm2 save
 
-            echo "Verificando estructura .next..."
-            ls -la .next/standalone | head -10
-            ls -la .next/static | head -10
-
-            echo "Next.js Landing desplegada correctamente"
+            echo "Deploy finalizado correctamente"
