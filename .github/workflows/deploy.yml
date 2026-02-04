@@ -21,43 +21,30 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
           script: |
-            set -e  # Sale si hay cualquier error
+            set -e
 
-            echo "🚀 Entrando a /var/www..."
-            cd /var/www/
+            echo "🚀 Entrando a /var/www/spsolutions.app..."
+            cd /var/www/spsolutions.app
 
-            # Si ya existe, hacemos git pull; si no, clonamos
-            if [ -d spsolutions.app ]; then
-              echo "🔄 Actualizando repositorio existente..."
-              cd spsolutions.app
-              git fetch --all
-              git reset --hard origin/main
-            else
-              echo "📦 Clonando repositorio por primera vez..."
-              git clone https://${{ secrets.GH_TOKEN }}@github.com/spsolutionsapps/crm-website.git spsolutions.app
-              cd spsolutions.app
-            fi
+            echo "🔄 Actualizando repositorio existente..."
+            git fetch --all
+            git reset --hard origin/main
 
             echo "📄 Copiando variables de entorno..."
             if [ -f /etc/spsolutions.app/.env.production ]; then
               cp /etc/spsolutions.app/.env.production .env
             else
-              echo "⚠️ .env.production no encontrado. Verifica en /etc/spsolutions.app/"
+              echo "⚠️ .env.production no encontrado en /etc/spsolutions.app/"
             fi
 
-            echo "🛠 Instalando dependencias..."
+            echo "🛠 Instalando dependencias (legacy-peer-deps)..."
+            export HOME=/root
             npm install --legacy-peer-deps
 
-            echo "⚡ Forzando que Next.js y SWC coincidan..."
-            npm install @next/swc@15.5.11
-
-            echo "✨ Instalando Tailwind postcss plugin si falta..."
-            npm install @tailwindcss/postcss
-
-            echo "🏗 Construyendo la app..."
+            echo "🔨 Construyendo la app..."
             npm run build
 
-            echo "🔄 Reiniciando PM2..."
+            echo "♻️ Reiniciando PM2..."
             pm2 delete nextjs 2>/dev/null || true
             PORT=3000 pm2 start npm --name nextjs -- start
             pm2 save
