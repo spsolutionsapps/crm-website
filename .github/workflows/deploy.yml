@@ -21,35 +21,43 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
           script: |
-            set -e
+            set -e  # Sale si hay cualquier error
 
-            echo "Entrando a /var/www..."
+            echo "🚀 Entrando a /var/www..."
             cd /var/www/
 
-            # Crear la carpeta si no existe
-            mkdir -p spsolutions.app
-
-            echo "Actualizando repositorio..."
-            cd spsolutions.app
-            git fetch --all
-            git reset --hard origin/main
-
-            echo "Instalando herramientas de build si faltan..."
-            sudo apt update
-            sudo apt install -y build-essential python3 make g++ pkg-config
-
-            echo "Instalando dependencias (legacy-peer-deps)..."
-            npm install --legacy-peer-deps
-
-            echo "Copiando variables de entorno..."
-            if [ -f .env.production ]; then
-              cp .env.production .env
+            # Si ya existe, hacemos git pull; si no, clonamos
+            if [ -d spsolutions.app ]; then
+              echo "🔄 Actualizando repositorio existente..."
+              cd spsolutions.app
+              git fetch --all
+              git reset --hard origin/main
+            else
+              echo "📦 Clonando repositorio por primera vez..."
+              git clone https://${{ secrets.GH_TOKEN }}@github.com/spsolutionsapps/crm-website.git spsolutions.app
+              cd spsolutions.app
             fi
 
-            echo "Construyendo la app..."
+            echo "📄 Copiando variables de entorno..."
+            if [ -f /etc/spsolutions.app/.env.production ]; then
+              cp /etc/spsolutions.app/.env.production .env
+            else
+              echo "⚠️ .env.production no encontrado. Verifica en /etc/spsolutions.app/"
+            fi
+
+            echo "🛠 Instalando dependencias..."
+            npm install --legacy-peer-deps
+
+            echo "⚡ Forzando que Next.js y SWC coincidan..."
+            npm install @next/swc@15.5.11
+
+            echo "✨ Instalando Tailwind postcss plugin si falta..."
+            npm install @tailwindcss/postcss
+
+            echo "🏗 Construyendo la app..."
             npm run build
 
-            echo "Reiniciando PM2..."
+            echo "🔄 Reiniciando PM2..."
             pm2 delete nextjs 2>/dev/null || true
             PORT=3000 pm2 start npm --name nextjs -- start
             pm2 save
