@@ -45,6 +45,12 @@ jobs:
             echo "Instalando dependencias con legacy-peer-deps..."
             npm install --legacy-peer-deps
 
+            echo "Forzando que @next/swc coincida con Next.js..."
+            npm install @next/swc@15.5.11 --save-dev
+
+            echo "Instalando plugins faltantes de PostCSS/Tailwind..."
+            npm install tailwindcss postcss autoprefixer @tailwindcss/postcss --save-dev
+
             echo "Construyendo la app..."
             npm run build
 
