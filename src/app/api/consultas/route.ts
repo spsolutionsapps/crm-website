@@ -33,7 +33,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { nombre, apellido, email, telefono, mensaje, recaptchaToken } = body;
+    const { nombre, apellido, email, telefono, mensaje, asunto, recaptchaToken } = body;
 
     if (!nombre || !apellido || !email || !mensaje) {
       return NextResponse.json(
@@ -62,11 +62,11 @@ export async function POST(request: NextRequest) {
     }
 
     const stmt = db.prepare(`
-      INSERT INTO consultas (nombre, apellido, email, telefono, mensaje)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO consultas (nombre, apellido, email, telefono, asunto, mensaje)
+      VALUES (?, ?, ?, ?, ?, ?)
     `);
 
-    await stmt.run(nombre, apellido, email, telefono || null, mensaje);
+    await stmt.run(nombre, apellido, email, telefono || null, asunto || null, mensaje);
 
     return NextResponse.json(
       { success: true, message: 'Consulta enviada correctamente' },

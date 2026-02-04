@@ -7,6 +7,7 @@ interface Consulta {
   apellido: string;
   email: string;
   telefono: string | null;
+  asunto: string | null;
   mensaje: string;
   fecha: string;
 }
@@ -236,6 +237,9 @@ export default function AdminPage() {
                       Teléfono
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white/50 uppercase tracking-wider">
+                      Asunto
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white/50 uppercase tracking-wider">
                       Mensaje
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white/50 uppercase tracking-wider">
@@ -257,6 +261,9 @@ export default function AdminPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                         {consulta.telefono || '-'}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        {consulta.asunto || '-'}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900 dark:text-white max-w-xs truncate">
                         {consulta.mensaje || '-'}

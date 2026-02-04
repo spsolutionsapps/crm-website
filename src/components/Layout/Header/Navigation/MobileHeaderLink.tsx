@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import Link from 'next/link';
+import { Icon } from '@iconify/react';
 import { HeaderItem } from '../../../../types/menu';
 import { usePathname } from 'next/navigation';
 
@@ -43,9 +44,14 @@ const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
     <div className="relative block w-full">
       <button
         onClick={item.submenu ? handleToggle : handleClick}
-        className={`flex items-center justify-between w-full py-2 px-3 text-black rounded-md dark:text-grey dark:text-opacity-70 focus:outline-hidden ${path === item.href ? 'bg-primary text-white dark:text-white!' : ''}`}
+        className={`flex items-center justify-between w-full px-3 text-black rounded-md dark:text-grey dark:text-opacity-70 focus:outline-hidden ${item.hot ? 'emprendedor' : 'py-2'} ${path === item.href ? 'bg-primary text-white dark:text-white!' : ''}`}
       >
-        {item.label}
+        <span className="flex items-center gap-1.5">
+          {item.hot && (
+            <Icon icon="mdi:fire" className="w-4 h-4 text-orange-500 shrink-0" aria-hidden />
+          )}
+          {item.label}
+        </span>
         {item.submenu && (
           <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m7 10l5 5l5-5" />

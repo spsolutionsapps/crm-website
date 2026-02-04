@@ -87,6 +87,7 @@ async function initializeDatabase(db: Database) {
         apellido VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         telefono VARCHAR(50),
+        asunto VARCHAR(255),
         mensaje TEXT NOT NULL,
         fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
@@ -128,6 +129,14 @@ async function initializeDatabase(db: Database) {
         UPDATE consultas SET telefono = pais WHERE telefono IS NULL;
         ALTER TABLE consultas DROP COLUMN pais;
       `);
+    }
+
+    const asuntoCheck = await pool.query(`
+      SELECT column_name FROM information_schema.columns
+      WHERE table_name = 'consultas' AND column_name = 'asunto'
+    `);
+    if (asuntoCheck.rows.length === 0) {
+      await db.exec(`ALTER TABLE consultas ADD COLUMN asunto VARCHAR(255)`);
     }
 
     // Crear usuario admin por defecto si no existe (usando ON CONFLICT para evitar errores)
@@ -195,6 +204,7 @@ if (process.env.DATABASE_URL) {
         apellido TEXT NOT NULL,
         email TEXT NOT NULL,
         telefono TEXT,
+        asunto TEXT,
         mensaje TEXT NOT NULL,
         fecha DATETIME DEFAULT CURRENT_TIMESTAMP
       );
@@ -211,6 +221,13 @@ if (process.env.DATABASE_URL) {
         expires_at DATETIME NOT NULL
       );
     `);
+
+    const sqliteCols = sqliteDb.prepare('PRAGMA table_info(consultas)').all() as { name: string }[];
+    if (!sqliteCols.some((c) => c.name === 'asunto')) {
+      try {
+        sqliteDb.exec('ALTER TABLE consultas ADD COLUMN asunto TEXT');
+      } catch (_) {}
+    }
     
     db = sqliteDb as any;
     console.log('✅ SQLite inicializado como fallback');

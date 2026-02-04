@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import Link from 'next/link';
+import { Icon } from '@iconify/react';
 import { HeaderItem } from '../../../../types/menu';
 import { usePathname } from 'next/navigation';
 
@@ -46,7 +47,10 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
       <Link 
         href={item.href} 
         onClick={handleClick}
-        className={`text-base flex py-2 font-normal hover:text-primary dark:hover:text-primary text-black dark:text-white ${path === item.href ? 'text-primary dark:text-primary!' : ''}`}>
+        className={`text-base flex items-center gap-1.5 font-normal text-black dark:text-white relative ${item.hot ? 'emprendedor' : 'py-2 hover:text-primary dark:hover:text-primary'} ${(item.href === '#productos' || item.href === '#services' || item.href === '#portfolio') ? 'header-link-underline' : ''} ${path === item.href ? 'text-primary dark:text-primary!' : ''}`}>
+        {item.hot && (
+          <Icon icon="mdi:fire" className="w-4 h-4 text-orange-500 shrink-0" aria-hidden />
+        )}
         {item.label}
         {item.submenu && (
           <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">

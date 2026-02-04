@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Hero from '@/components/Home/Hero';
 import Counter from '@/components/Home/Counter'
 import Progresswork from '@/components/Home/WorkProgress';
+import PackEmprendedor from '@/components/Home/PackEmprendedor';
 import Services from '@/components/Home/Services';
 import Portfolio from '@/components/SharedComponent/portfollio'
 import Contactform from '@/components/Home/Contact';
@@ -15,6 +16,7 @@ export default function Home() {
     <main>
       <Hero />
       <Progresswork isColorMode={false} />
+      <PackEmprendedor />
       <Services />
       <Portfolio />
       <Contactform />

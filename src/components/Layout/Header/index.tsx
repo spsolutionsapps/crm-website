@@ -53,7 +53,7 @@ const Header: React.FC = () => {
     <header
       className={`fixed h-24 top-0 py-1 z-50 w-full transition-all backdrop-blur-md ${
         sticky
-          ? 'bg-white/80 dark:bg-darklight/86'
+          ? 'bg-white/80 dark:bg-black/90'
           : 'bg-transparent dark:bg-transparent'
       }`}>
       <div className='container mx-auto max-w-6xl flex items-center justify-between p-6'>
@@ -66,7 +66,7 @@ const Header: React.FC = () => {
         <div className='flex items-center gap-4'>
           <Link
             href='#contact'
-            className='hidden lg:block bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700'
+            className='hidden lg:block bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 contactanos'
             onClick={(e) => {
               e.preventDefault();
               const element = document.getElementById('contact');
@@ -80,7 +80,7 @@ const Header: React.FC = () => {
                 });
               }
             }}>
-            Contáctanos
+            <span>Contáctanos</span>
           </Link>
           <button
             onClick={() => setNavbarOpen(!navbarOpen)}

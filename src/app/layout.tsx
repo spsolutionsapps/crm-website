@@ -35,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body className={inter.className}>
       <NextTopLoader />
       <ReCaptchaProvider>
@@ -43,8 +43,9 @@ export default function RootLayout({
       <SessionProviderComp session={null}>
         <ThemeProvider
           attribute="class"
-          enableSystem={true}
-          defaultTheme="system"
+          enableSystem={false}
+          defaultTheme="dark"
+          forcedTheme="dark"
         >
           <ConditionalLayout>
             {children}

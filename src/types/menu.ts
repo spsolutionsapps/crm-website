@@ -7,4 +7,5 @@ export type SubmenuItem = {
     label: string;
     href: string;
     submenu?: SubmenuItem[];
+    hot?: boolean;
   };
