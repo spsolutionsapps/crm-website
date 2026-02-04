@@ -21,11 +21,7 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
           script: |
-            set -e
-
-            echo "Actualizando sistema e instalando herramientas de build..."
-            sudo apt update
-            sudo apt install -y build-essential python3 make g++ pkg-config
+            set -e  # falla si algo sale mal
 
             echo "Entrando a /var/www..."
             cd /var/www/
@@ -38,18 +34,10 @@ jobs:
 
             cd spsolutions.app
 
-            echo "Limpiando node_modules y cache de npm..."
+            echo "Instalando dependencias (legacy-peer-deps)..."
             rm -rf node_modules package-lock.json
             npm cache clean --force
-
-            echo "Instalando dependencias con legacy-peer-deps..."
             npm install --legacy-peer-deps
-
-            echo "Forzando que @next/swc coincida con Next.js..."
-            npm install @next/swc@15.5.11 --save-dev
-
-            echo "Instalando plugins faltantes de PostCSS/Tailwind..."
-            npm install tailwindcss postcss autoprefixer @tailwindcss/postcss --save-dev
 
             echo "Construyendo la app..."
             npm run build
@@ -59,4 +47,4 @@ jobs:
             PORT=3000 pm2 start npm --name nextjs -- start
             pm2 save
 
-            echo "Deploy finalizado correctamente! 🎉"
+            echo "Deploy finalizado correctamente 🎉"
