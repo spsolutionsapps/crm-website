@@ -8,7 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,10 +33,11 @@ jobs:
             if [ -f /etc/spsolutions.app/.env.production ]; then
               cp /etc/spsolutions.app/.env.production .env
             else
-              echo "⚠️ .env.production no encontrado en /etc/spsolutions.app/"
+              echo "⚠️ .env.production no encontrado. Abortando deploy."
+              exit 1
             fi
 
-            echo "🛠 Instalando dependencias (legacy-peer-deps)..."
+            echo "🛠 Instalando dependencias..."
             export HOME=/root
             npm install --legacy-peer-deps
 
