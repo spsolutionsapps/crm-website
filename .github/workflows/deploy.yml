@@ -32,7 +32,7 @@ jobs:
             echo "Clonando repositorio..."
            
 
-            git clone https://${{ secrets.GH_TOKEN }}@github.com/spsolutionsapps/spsolutions.app.git spsolutions.app
+            git clone https://${{ secrets.GH_TOKEN }}@github.com/spsolutionsapps/crm-website.git spsolutions.app
 
             cd spsolutions.app
 
