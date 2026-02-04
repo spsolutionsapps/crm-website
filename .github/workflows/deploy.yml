@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,13 +20,14 @@ jobs:
           username: ${{ secrets.DO_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: 22
+
           script: |
             set -e
 
             echo "🚀 Entrando a /var/www/spsolutions.app..."
             cd /var/www/spsolutions.app
 
-            echo "🔄 Actualizando repositorio existente..."
+            echo "🔄 Actualizando repositorio..."
             git fetch --all
             git reset --hard origin/main
 
@@ -37,16 +39,23 @@ jobs:
               exit 1
             fi
 
-            echo "🛠 Instalando dependencias..."
+            echo "🧹 Limpiando build anterior..."
+            rm -rf .next node_modules
+
+            echo "🛠 Instalando dependencias con npm ci..."
             export HOME=/root
-            npm install --legacy-peer-deps
+            npm ci
 
             echo "🔨 Construyendo la app..."
             npm run build
 
-            echo "♻️ Reiniciando PM2..."
-            pm2 delete nextjs 2>/dev/null || true
-            PORT=3000 pm2 start npm --name nextjs -- start
+            echo "♻️ Reiniciando aplicación con PM2..."
+            if pm2 list | grep -q nextjs; then
+              pm2 restart nextjs
+            else
+              PORT=3000 pm2 start npm --name nextjs -- start
+            fi
+
             pm2 save
 
             echo "✅ Deploy finalizado correctamente"
