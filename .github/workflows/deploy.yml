@@ -23,20 +23,26 @@ jobs:
           script: |
             set -e
 
+            echo "Actualizando sistema e instalando herramientas de build..."
+            sudo apt update
+            sudo apt install -y build-essential python3 make g++ pkg-config
+
             echo "Entrando a /var/www..."
             cd /var/www/
 
             echo "Eliminando versión anterior..."
             rm -rf spsolutions.app
 
-            echo "Clonando repositorio..."
-           
-
+            echo "Clonando repositorio seguro con token..."
             git clone https://${{ secrets.GH_TOKEN }}@github.com/spsolutionsapps/crm-website.git spsolutions.app
 
             cd spsolutions.app
 
-            echo "Instalando dependencias..."
+            echo "Limpiando node_modules y cache de npm..."
+            rm -rf node_modules package-lock.json
+            npm cache clean --force
+
+            echo "Instalando dependencias con legacy-peer-deps..."
             npm install --legacy-peer-deps
 
             echo "Construyendo la app..."
@@ -47,4 +53,4 @@ jobs:
             PORT=3000 pm2 start npm --name nextjs -- start
             pm2 save
 
-            echo "Deploy finalizado correctamente vamoooo vamooooooooooo"
+            echo "Deploy finalizado correctamente! 🎉"
