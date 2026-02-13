@@ -97,12 +97,12 @@ export default function ContactModal({ isOpen, onClose, title, defaultAsunto = '
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/60 z-[100] backdrop-blur-sm"
+        className="fixed inset-0 bg-black/60 z-[99999] backdrop-blur-sm"
         onClick={onClose}
         aria-hidden
       />
       <div
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-full max-w-[50rem] max-h-[90vh] overflow-y-auto mx-4"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100000] w-full max-w-[50rem] max-h-[90vh] overflow-y-auto mx-4"
         role="dialog"
         aria-modal="true"
         aria-labelledby="contact-modal-title"

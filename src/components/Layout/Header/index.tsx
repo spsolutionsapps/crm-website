@@ -2,6 +2,8 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import { getImgPath } from '@/utils/image'
 import { headerData } from '../Header/Navigation/menuData'
 import Logo from './Logo'
 import HeaderLink from '../Header/Navigation/HeaderLink'
@@ -51,7 +53,7 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`fixed h-24 top-0 py-1 z-50 w-full transition-all backdrop-blur-md ${
+      className={`fixed h-24 top-0 py-1 z-[1000] w-full transition-all backdrop-blur-md ${
         sticky
           ? 'bg-white/80 dark:bg-black/90'
           : 'bg-transparent dark:bg-transparent'
@@ -93,18 +95,25 @@ const Header: React.FC = () => {
         </div>
       </div>
       {navbarOpen && (
-        <div className='fixed top-0 left-0 w-full h-full bg-black/50 z-40' />
+        <div className='fixed inset-0 bg-black/50 z-[9997]' />
       )}
 
       <div
         ref={mobileMenuRef}
-        className={`lg:hidden fixed top-0 right-0 h-full w-full bg-white dark:bg-darkmode shadow-lg transform transition-transform duration-300 max-w-xs ${
+        className={`lg:hidden fixed inset-0 h-screen w-screen min-h-full min-w-full bg-white dark:bg-[#081738] shadow-xl transform transition-transform duration-300 opacity-100 ${
           navbarOpen ? 'translate-x-0' : 'translate-x-full'
-        } z-50`}>
+        } z-[9998]`}>
         <div className='flex items-center justify-between p-4'>
-          <h2 className='text-lg font-bold text-midnight_text dark:text-white'>
-            Menú
-          </h2>
+          <Link href="/" onClick={() => setNavbarOpen(false)} className="flex-shrink-0">
+            <Image
+              src={getImgPath('/sp-logo.svg')}
+              alt="SP Solutions"
+              width={200}
+              height={50}
+              style={{ width: '200px', height: 'auto' }}
+              className="max-w-[200px]"
+            />
+          </Link>
           <button
             onClick={() => setNavbarOpen(false)}
             aria-label='Close mobile menu'>
@@ -125,7 +134,7 @@ const Header: React.FC = () => {
             </svg>
           </button>
         </div>
-        <nav className='flex flex-col items-start p-4'>
+        <nav className='flex flex-col items-start p-4 gap-5'>
           {headerData.map((item, index) => (
             <MobileHeaderLink key={index} item={item} />
           ))}
